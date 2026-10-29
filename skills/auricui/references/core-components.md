@@ -27,9 +27,9 @@
 
 设置面板可直接使用 [BasicApp.tsx](../assets/examples/BasicApp.tsx)。`SettingsDialog` 提供壳和页面导航，页面内容由应用提供。`SettingsModal` 是 `auricui/studio` 的专业业务设置页面，需要服务适配，不用于代替普通设置壳。
 
-通用浮层使用 `Popover` 包含 `Card` 或带 `POPOVER_CHROME` 的面板。不要从 npm 导入演示工程私有的 `Modal`；包中也没有通用 `Button` / `Input` 别名。列表、表格、路由等需求先查真实导出，缺失时用已有控件和原生语义元素组合，不要虚构组件。
+通用浮层使用 `Popover` 包含 `Card` 或带 `POPOVER_CHROME` 的面板。不要从 npm 导入演示工程私有的 `Modal`；包中也没有通用 `Button` / `Input` 别名。表格使用公开的 `Table`；路由等其他需求先查真实导出，缺失时在应用侧组合，不要虚构组件。
 
-## preview.3 新增的基础组件
+## 通用基础组件
 
 以下现在是 `auricui` 的正式导出，不需要复制展示站的原生 HTML 配方：
 
@@ -42,3 +42,11 @@
 - Textarea、Progress（无 value 时不定进度）、Skeleton、EmptyState、Avatar、Breadcrumb、Pagination。
 
 通过 `inspect_api.py --entry core --symbol Drawer` 等命令读取准确属性。可运行示例：`assets/examples/Drawer.tsx`、`Checkbox.tsx`、`Tree.tsx`、`Combobox.tsx`。使用 CSS 变量，不需要安装额外 headless 或动画库。
+
+## 表格
+
+`Table` 使用 `label`、`rows`、`columns`、`rowKey`；每列通过 `render(row, index)` 渲染内容。指定 `compare` 才启用该列的客户端排序；`sort/onSortChange` 可受控，`defaultSort` 用于初始非受控排序。
+
+勾选通过受控 `selection.selectedKeys/onChange` 管理，可设置不可选行与每行的无障碍标签。加载、空状态、紧凑密度、固定表头分别查询 `loading`、`emptyContent`、`density`、`stickyHeader/maxHeight`。分页与远端请求由应用负责，`rowKey` 应保持稳定。
+
+只取需要的示例：`inspect_api.py --entry core --symbol Table --example`；加载/空数据等状态用 `--example TableStates`。所有示例都只是本地交互，业务动作需接入自己的回调。

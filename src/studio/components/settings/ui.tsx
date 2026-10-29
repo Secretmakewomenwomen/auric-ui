@@ -75,7 +75,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: k
 export function SettingsButton({ variant = 'default', className = '', ...props }: ButtonProps) {
   return (
     <button type="button" {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[8px] px-3.5 text-[14px] font-medium transition disabled:pointer-events-none disabled:opacity-50 ${BUTTON[variant]} ${className}`} />
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[6px] px-3.5 text-[14px] font-medium transition disabled:pointer-events-none disabled:opacity-50 ${BUTTON[variant]} ${className}`} />
   );
 }
 
@@ -83,7 +83,7 @@ export function SettingsButton({ variant = 'default', className = '', ...props }
 export function SettingsLinkButton({ className = '', ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
     <a target="_blank" rel="noreferrer" {...props}
-      className={`inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[8px] px-3.5 text-[14px] font-medium transition ${BUTTON.default} ${className}`} />
+      className={`inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[6px] px-3.5 text-[14px] font-medium transition ${BUTTON.default} ${className}`} />
   );
 }
 

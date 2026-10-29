@@ -35,6 +35,8 @@ try {
   assert.ok(api.includes('MemoryCardProps'));
   const drawerApi = execFileSync('python3',[path.join(target,'scripts/inspect_api.py'),'--entry','core','--symbol','Drawer'],{encoding:'utf8'});
   assert.ok(drawerApi.includes('DrawerProps'));
+  // Exercise progressive queries against the installed artifact, not just workspace sources.
+  execFileSync('python3',[path.join(root,'scripts/check-skill-query.py'),target],{stdio:'inherit'});
   const custom = path.join(temp,'custom skills');
   assert.equal(run('--dir',custom).status,0);
   fs.mkdirSync(path.join(temp,'links'));

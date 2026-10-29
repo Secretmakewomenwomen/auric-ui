@@ -1,6 +1,6 @@
 # Agent 与 Personal Agent
 
-基线：`0.1.0-preview.4`。从 `auricui/agent` 导入，CSS 仍只导入一次 `auricui/styles.css`。这些组件不依赖 Chat Provider 或模型 SDK；宿主传入数据、维护状态并实现回调。
+版本基线见 `library-manifest.json`。从 `auricui/agent` 导入，CSS 仍只导入一次 `auricui/styles.css`。这些组件不依赖 Chat Provider 或模型 SDK；宿主传入数据、维护状态并实现回调。
 
 | 需求 | 组件 |
 | --- | --- |
@@ -30,4 +30,4 @@ python3 <Skill目录>/scripts/inspect_api.py --entry agent --symbol MemoryCard -
 - ScheduleCard 只展示 timezone / nextRun 并通知开关变化，不创建定时任务。ConnectorCard 不实现 OAuth。MemoryCard 的编辑/忘记回调不自动修改存储。
 - ConversationList 的搜索值和筛选结果由宿主管理；PromptTemplate 字段和值受控，提交结果由应用消费。
 
-独立可复制示例位于 `assets/examples/`：MessageList、ToolCall、ApprovalCard、MemoryCard、BriefingCard。示例动作仅改变演示状态，接入应用时替换为实际回调。
+每个已登记的 Agent 组件均可按名称单独查询示例，例如 `inspect_api.py --entry agent --symbol GoalCard --example`。示例动作仅改变演示状态，接入应用时替换为实际回调。无需一次读取整个示例目录。

@@ -20,7 +20,6 @@
 
 ```bash
 npm config get registry
-npm view auricui@0.1.0-preview.4 version --registry=https://registry.npmjs.org/ --prefer-online
 npm view auricui dist-tags --json --registry=https://registry.npmjs.org/ --prefer-online
 ```
 

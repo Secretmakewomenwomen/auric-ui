@@ -1,6 +1,6 @@
 {
   "name": "auricui",
-  "version": "0.1.0-preview.4",
+  "version": "0.1.0-preview.5",
   "description": "AuricUI dark UI components for React 19 — ESM only",
   "type": "module",
   "license": "MIT",

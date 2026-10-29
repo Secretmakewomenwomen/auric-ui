@@ -25,6 +25,12 @@ npx auricui-skill@latest --dry-run
 
 自定义目录参数表示技能的父目录，安装器会追加 `auricui`。已有目录默认不覆盖；`--update` 的备份位于 skills 父目录下的 `.auricui-skill-backups/`，终端会输出确切位置。符号链接目标不会被覆盖。
 
-安装后刷新 Agent 技能列表或新开会话，使用 `$auricui`；不支持自动扫描技能的 Agent 可显式读取安装目录中的 SKILL.md。组件基线为 `0.1.0-preview.3`，实际安装版本不同则按其声明核对 API。
+安装后刷新 Agent 技能列表或新开会话，使用 `$auricui`；不支持自动扫描技能的 Agent 可显式读取安装目录中的 SKILL.md。参数查询优先使用目标项目的安装包；附带基线版本见 Skill 内的 `references/library-manifest.json`。
 
 包含的源参考快照和本地组件包保留 MIT 与第三方许可；详见 Skill 内来源资料和组件包的 LICENSE / THIRD-PARTY-NOTICES.md。
+
+## 按需读取
+
+Skill 入口只保留关键约束和任务路由。Agent 先搜索组件，再读取单个组件及其关联类型，必要时再取一个 TSX 示例或对应的服务指南。无需预先加载全部 API、示例或上游快照。
+
+`inspect_api.py` 支持 `--search`、`--limit/--offset`、`--symbol` 和 `--example`；参数来自目标安装包，示例来自 Skill 基线，版本不同时会提示核对。`--full` / `--file` 用于确有需要时展开完整声明。完整 Chat/Studio 服务资料按场景独立读取；不保证上下文零消耗，也不会自动实现真实后端。

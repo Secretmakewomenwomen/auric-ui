@@ -83,7 +83,7 @@ export const CardButton = React.forwardRef<
       {...props}
       ref={ref}
       type={type}
-      className={`inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-lg px-3 text-[12px] font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[var(--text)]/30 disabled:pointer-events-none disabled:opacity-50 ${WEIGHT[weight]} ${className}`}
+      className={`inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-[6px] px-3 text-[12px] font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[var(--text)]/30 disabled:pointer-events-none disabled:opacity-50 ${WEIGHT[weight]} ${className}`}
     />
   );
 });

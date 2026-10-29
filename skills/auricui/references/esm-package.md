@@ -2,22 +2,18 @@
 
 ## 版本与安装
 
-本文基线 `auricui@0.1.0-preview.4`，纯 ESM，入口为 `auricui`、`auricui/agent`、`auricui/chat`、`auricui/studio`、`auricui/styles.css`。源码构建会生成对应的本地 tarball。源码版本不代表已发布到 npm；远端安装前请先查询对应版本，未发布时使用附带包。
+组件库版本与附带 tgz 路径以 `library-manifest.json` 为准，API 查询工具会打印所用版本。ESM 入口包括 `auricui`、`auricui/agent`、`auricui/chat`、`auricui/studio`、`auricui/demo` 和 `auricui/styles.css`。
 
-已有项目优先使用锁文件中的兼容版本；新项目可查询并锁定基线版本。沿用项目包管理器，以下为 npm 示例：
-
-```bash
-npm view auricui@0.1.0-preview.4 version --registry=https://registry.npmjs.org/ --prefer-online
-npm install --save-exact auricui@0.1.0-preview.4 --registry=https://registry.npmjs.org/
-```
-
-仅当用户希望跟随预览渠道时用 `auricui@next`，`next` 会移动，不能假设永远对应本文基线。已有 React 19 项目复用其 React/DOM 版本；新建项目按框架要求安装两者。包的 peer 是 `^19.0.0`，未验证 React 18。
-
-离线或 registry 不可用时，可将 Skill 内 `assets/library/auricui-0.1.0-preview.4.tgz` 复制到目标项目 `vendor/`，再安装相对路径。它提供当前基线包本体，传递依赖仍需网络或缓存。不能把用户全局 Skill 的绝对路径写入项目依赖。校验摘要见 [library-manifest.json](library-manifest.json)。
+已有项目优先复用锁文件中的兼容版本。先检查目标包，不为使用 Skill 擅自升级 React 或框架。新项目可按用户选择安装 npm 预览渠道；远端是否已有精确版本需查询确认，源码基线不等于 npm 发布状态。
 
 ```bash
-npm install ./vendor/auricui-0.1.0-preview.4.tgz
+npm view auricui dist-tags --json
+npm install auricui@next
 ```
+
+React / React DOM 要求 19，消费方可用 JavaScript，不必安装 TypeScript 或 Tailwind。Next.js 等应用需要把交互组件放进自己的客户端边界。
+
+网络不可用时，读取 `library-manifest.json` 的 file 字段，将对应 tgz 复制到消费项目 vendor 目录，再安装该相对路径。不要把全局 Skill 绝对路径写入项目依赖；包的传递依赖仍需要网络或缓存。
 
 ## 应用根
 

@@ -6,6 +6,7 @@ artifacts/
 /public/downloads/
 /packages/auricui-skill/skill/
 /skills/auricui/assets/library/
+/skills/auricui/assets/examples/components/
 *.tgz
 *.zip
 *.tsbuildinfo

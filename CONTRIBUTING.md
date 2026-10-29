@@ -35,6 +35,38 @@ npm run check
 
 组件预览和可复制示例必须使用同一实现。新增组件请补公开导出、样式、适当的行为测试和可运行示例。业务功能通过数据和回调接入；涉及 Studio 服务契约时，应明确依赖，不能把演示数据描述为生产服务。
 
+## Skill 维护流程
+
+先修改 `skills/auricui/` 中的指南、示例和工具；不要编辑打包生成的 `packages/auricui-skill/skill/`。新增组件的用法需要编写到指南中，工作流自动同步的是公开 API 索引、组件库快照和文档站的独立示例，不会自动补写全部组件教程。`assets/examples/components/` 是生成目录；其中的示例请在 `src/docs/examples/` 修改，维护脚本会同步并检查编译。Skill 入口保持精简，新增详细说明放进按任务读取的参考文件。
+
+在仓库根目录执行（也可用 `npm run maintain:skill -- 参数`）：
+
+```bash
+# 日常检查：构建、同步、打包和全部验证；不改变版本号
+bash scripts/maintain-skill.sh
+
+# 从刚生成的安装包更新本机 Codex Skill，不发布 npm
+bash scripts/maintain-skill.sh --install-global
+
+# 发布新版 Skill，并更新本机 Codex Skill
+bash scripts/maintain-skill.sh --publish --install-global
+
+# 安装到其他工具的技能父目录；路径相对于执行命令时的目录
+bash scripts/maintain-skill.sh --install-dir ./my-agent-skills
+```
+
+脚本依次运行完整构建和检查，覆盖组件测试、包消费、文档示例与 Skill 安装器。仅在传入 `--publish` 时调用 `release:skill`，递增 Skill 版本并发布到 npm 的 `latest` 渠道；发布成功后会更新本地文档站及下载包。执行发布前自行完成 `npm login`。
+
+本机安装直接使用本次打包的 tgz，不从 npm 的 `latest` 重新下载，避免安装到旧版本。已有 Skill 会按安装器规则备份。全局安装位置为 `CODEX_HOME/skills`，未配置时是 `~/.codex/skills`；自定义目录会追加 `auricui`。安装后刷新技能列表或新开 Agent 会话。
+
+任何阶段失败都会停止。如果 npm 发布已成功、后续刷新文档失败，修复后运行默认工作流即可，避免重复使用 `--publish` 再增加版本。若仅安装失败，可复用现有安装包：
+
+```bash
+bash scripts/maintain-skill.sh --install-only --install-global
+```
+
+`--install-only` 不重新构建或检查，要求当前版本的安装包和打包记录存在。它不能与 `--publish` 一起使用。只发布 Skill 不会发布 `auricui` 组件库；修改了组件库并准备同时发布时，仍使用 `npm run release:all`。工作流不提交 Git、不推送 Docker 镜像，也不更新服务器。
+
 ## 文件与发布边界
 
 提交源码、配置、锁文件和许可证。不要提交 `dist/`、`artifacts/`、`public/downloads/`、`packages/auricui-skill/skill/`、Skill 中的 tgz、验证缓存或生成文件；它们由构建流程还原。`deploy/registry/` 和本地工作记录不属于公开仓库。
