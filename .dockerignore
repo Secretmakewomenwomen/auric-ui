@@ -1,0 +1,8 @@
+# Only send the prebuilt site and its server configuration to Docker.
+**
+!Dockerfile
+!.dockerignore
+!deploy/
+!deploy/nginx.conf
+!dist/
+!dist/**

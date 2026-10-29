@@ -1,0 +1,7 @@
+import type { ReactNode } from 'react';
+import { Plug } from 'lucide-react';
+import { classes } from './shared';
+export interface ConnectorCardProps { name:string; icon?:ReactNode; account?:string; status:'connected'|'disconnected'|'expired'|'connecting'; scopes?:string[]; onConnect?:()=>void; onDisconnect?:()=>void; onManage?:()=>void; className?:string; }
+export function ConnectorCard({name,icon,account,status,scopes=[],onConnect,onDisconnect,onManage,className}:ConnectorCardProps) {
+  return <section className={classes('auricui-agent-card',className)} aria-label={name}><header className="auricui-agent-card-header">{icon??<Plug size={16}/>}<h3>{name}</h3><span className="auricui-connector-state" data-status={status} role="status">{({connected:'已连接',disconnected:'未连接',expired:'需重新授权',connecting:'连接中…'})[status]}</span></header>{account&&<p>{account}</p>}{scopes.length>0&&<ul className="auricui-scope-list" aria-label="已授予的权限">{scopes.map(scope=><li key={scope}>{scope}</li>)}</ul>}<footer className="auricui-agent-card-footer">{status==='connected'?<>{onManage&&<button type="button" className="auricui-agent-button" onClick={onManage}>管理权限</button>}{onDisconnect&&<button type="button" className="auricui-agent-button" onClick={onDisconnect}>断开连接</button>}</>:onConnect&&<button type="button" className="auricui-agent-primary" disabled={status==='connecting'} onClick={onConnect}>{status==='expired'?'重新授权':'连接服务'}</button>}</footer></section>;
+}

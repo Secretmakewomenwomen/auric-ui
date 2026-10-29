@@ -1,0 +1,1228 @@
+[
+  {
+    "id": "chat/AddSkill.tsx",
+    "area": "chat",
+    "name": "AddSkill",
+    "source": "apps/desktop/chat/src/components/AddSkill.tsx",
+    "local": "src/chat/components/AddSkill.tsx",
+    "status": "adapted",
+    "examples": [
+      "scene-chat"
+    ],
+    "note": "保留完整预览、安装和取消界面；通过 ChatServices 接入技能服务。"
+  },
+  {
+    "id": "chat/AgentActivityRow.tsx",
+    "area": "chat",
+    "name": "AgentActivityRow",
+    "source": "apps/desktop/chat/src/components/AgentActivityRow.tsx",
+    "local": "src/chat/components/AgentActivityRow.tsx",
+    "status": "ported",
+    "examples": [
+      "activity"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/AgentIcons.tsx",
+    "area": "chat",
+    "name": "AgentIcons",
+    "source": "apps/desktop/chat/src/components/AgentIcons.tsx",
+    "local": "src/chat/components/AgentIcons.tsx",
+    "status": "ported",
+    "examples": [
+      "model"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/AttachmentCard.tsx",
+    "area": "chat",
+    "name": "AttachmentCard",
+    "source": "apps/desktop/chat/src/components/AttachmentCard.tsx",
+    "local": "src/chat/components/AttachmentCard.tsx",
+    "status": "ported",
+    "examples": [
+      "attachment"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/AttachmentPreview.tsx",
+    "area": "chat",
+    "name": "AttachmentPreview",
+    "source": "apps/desktop/chat/src/components/AttachmentPreview.tsx",
+    "local": "src/chat/components/AttachmentPreview.tsx",
+    "status": "ported",
+    "examples": [
+      "attachment"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/BalanceNotice.tsx",
+    "area": "chat",
+    "name": "BalanceNotice",
+    "source": "apps/desktop/chat/src/components/BalanceNotice.tsx",
+    "local": "src/chat/components/BalanceNotice.tsx",
+    "status": "ported",
+    "examples": [
+      "balance"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/BrandLogo.tsx",
+    "area": "chat",
+    "name": "BrandLogo",
+    "source": "apps/desktop/chat/src/components/BrandLogo.tsx",
+    "local": "src/chat/components/BrandLogo.tsx",
+    "status": "adapted",
+    "examples": [
+      "scene-chat"
+    ],
+    "note": "保留尺寸与布局，替换为目标产品 AuricUI 标识。"
+  },
+  {
+    "id": "chat/ComposerCard.tsx",
+    "area": "chat",
+    "name": "ComposerCard",
+    "source": "apps/desktop/chat/src/components/ComposerCard.tsx",
+    "local": "src/chat/components/ComposerCard.tsx",
+    "status": "ported",
+    "examples": [
+      "notice",
+      "question"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/ConversationSessionBar.tsx",
+    "area": "chat",
+    "name": "ConversationSessionBar",
+    "source": "apps/desktop/chat/src/components/ConversationSessionBar.tsx",
+    "local": "src/chat/components/ConversationSessionBar.tsx",
+    "status": "ported",
+    "examples": [
+      "sessionbar"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/CopyDiagnostics.tsx",
+    "area": "chat",
+    "name": "CopyDiagnostics",
+    "source": "apps/desktop/chat/src/components/CopyDiagnostics.tsx",
+    "local": "src/chat/components/CopyDiagnostics.tsx",
+    "status": "adapted",
+    "examples": [
+      "scene-chat"
+    ],
+    "note": "通过 ChatServices 注入诊断复制。"
+  },
+  {
+    "id": "chat/Divider.tsx",
+    "area": "chat",
+    "name": "Divider",
+    "source": "apps/desktop/chat/src/components/Divider.tsx",
+    "local": "src/chat/components/Divider.tsx",
+    "status": "adapted",
+    "examples": [
+      "scene-chat"
+    ],
+    "note": "通过 ChatServices 注入列宽更新。"
+  },
+  {
+    "id": "chat/FileChangesList.tsx",
+    "area": "chat",
+    "name": "FileChangesList",
+    "source": "apps/desktop/chat/src/components/FileChangesList.tsx",
+    "local": "src/chat/components/FileChangesList.tsx",
+    "status": "ported",
+    "examples": [
+      "filechanges"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/Markdown.tsx",
+    "area": "chat",
+    "name": "Markdown",
+    "source": "apps/desktop/chat/src/components/Markdown.tsx",
+    "local": "src/chat/components/Markdown.tsx",
+    "status": "adapted",
+    "examples": [
+      "markdown",
+      "activity"
+    ],
+    "note": "原解析与渲染；Studio 引用通过本地 context 和回调适配。"
+  },
+  {
+    "id": "chat/ModelPopover.tsx",
+    "area": "chat",
+    "name": "ModelPopover",
+    "source": "apps/desktop/chat/src/components/ModelPopover.tsx",
+    "local": "src/chat/components/ModelPopover.tsx",
+    "status": "adapted",
+    "examples": [
+      "model"
+    ],
+    "note": "原菜单交互和样式；用 ModelOptionsProvider 替换桌面状态与服务。"
+  },
+  {
+    "id": "chat/NoticeCard.tsx",
+    "area": "chat",
+    "name": "NoticeCard",
+    "source": "apps/desktop/chat/src/components/NoticeCard.tsx",
+    "local": "src/chat/components/NoticeCard.tsx",
+    "status": "ported",
+    "examples": [
+      "notice"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/Popover.tsx",
+    "area": "chat",
+    "name": "Popover",
+    "source": "apps/desktop/chat/src/components/Popover.tsx",
+    "local": "src/chat/components/Popover.tsx",
+    "status": "ported",
+    "examples": [
+      "model"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/PreviewFrame.tsx",
+    "area": "chat",
+    "name": "PreviewFrame",
+    "source": "apps/desktop/chat/src/components/PreviewFrame.tsx",
+    "local": "src/chat/components/PreviewFrame.tsx",
+    "status": "ported",
+    "examples": [
+      "attachment"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/ProjectConversation.tsx",
+    "area": "chat",
+    "name": "ProjectConversation",
+    "source": "apps/desktop/chat/src/components/ProjectConversation.tsx",
+    "local": "src/chat/components/ProjectConversation.tsx",
+    "status": "adapted",
+    "examples": [
+      "scene-chat"
+    ],
+    "note": "原对话渲染、缓存与流式更新；进度读取和桌面操作通过可注入服务提供。"
+  },
+  {
+    "id": "chat/ProjectStarters.tsx",
+    "area": "chat",
+    "name": "ProjectStarters",
+    "source": "apps/desktop/chat/src/components/ProjectStarters.tsx",
+    "local": "src/chat/components/ProjectStarters.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-chat"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/prompt-editor/MentionMenuPlugin.tsx",
+    "area": "chat",
+    "name": "prompt-editor/MentionMenuPlugin",
+    "source": "apps/desktop/chat/src/components/prompt-editor/MentionMenuPlugin.tsx",
+    "local": "src/chat/components/prompt-editor/MentionMenuPlugin.tsx",
+    "status": "ported",
+    "examples": [
+      "composer"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/prompt-editor/PromptEditor.tsx",
+    "area": "chat",
+    "name": "prompt-editor/PromptEditor",
+    "source": "apps/desktop/chat/src/components/prompt-editor/PromptEditor.tsx",
+    "local": "src/chat/components/prompt-editor/PromptEditor.tsx",
+    "status": "ported",
+    "examples": [
+      "composer"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/prompt-editor/PromptPill.tsx",
+    "area": "chat",
+    "name": "prompt-editor/PromptPill",
+    "source": "apps/desktop/chat/src/components/prompt-editor/PromptPill.tsx",
+    "local": "src/chat/components/prompt-editor/PromptPill.tsx",
+    "status": "adapted",
+    "examples": [
+      "promptpill",
+      "composer"
+    ],
+    "note": "保留原引用交互；补充服务端渲染所需的 hover store 快照。"
+  },
+  {
+    "id": "chat/prompt-editor/PromptReferenceNode.tsx",
+    "area": "chat",
+    "name": "prompt-editor/PromptReferenceNode",
+    "source": "apps/desktop/chat/src/components/prompt-editor/PromptReferenceNode.tsx",
+    "local": "src/chat/components/prompt-editor/PromptReferenceNode.tsx",
+    "status": "ported",
+    "examples": [
+      "composer"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/Tooltip.tsx",
+    "area": "chat",
+    "name": "Tooltip",
+    "source": "apps/desktop/chat/src/components/Tooltip.tsx",
+    "local": "src/chat/components/Tooltip.tsx",
+    "status": "ported",
+    "examples": [
+      "attachment",
+      "promptpill"
+    ],
+    "note": ""
+  },
+  {
+    "id": "chat/TurnLog.tsx",
+    "area": "chat",
+    "name": "TurnLog",
+    "source": "apps/desktop/chat/src/components/TurnLog.tsx",
+    "local": "src/chat/components/TurnLog.tsx",
+    "status": "adapted",
+    "examples": [
+      "scene-chat"
+    ],
+    "note": "原日志查看器；日志数据和文件定位通过 ChatServices 提供。"
+  },
+  {
+    "id": "chat/TurnQuestionCard.tsx",
+    "area": "chat",
+    "name": "TurnQuestionCard",
+    "source": "apps/desktop/chat/src/components/TurnQuestionCard.tsx",
+    "local": "src/chat/components/TurnQuestionCard.tsx",
+    "status": "ported",
+    "examples": [
+      "question"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/AudioMeters.tsx",
+    "area": "studio",
+    "name": "AudioMeters",
+    "source": "packages/openfilm/studio/ui/src/components/AudioMeters.tsx",
+    "local": "src/studio/components/AudioMeters.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/BlockThumbs.tsx",
+    "area": "studio",
+    "name": "BlockThumbs",
+    "source": "packages/openfilm/studio/ui/src/components/BlockThumbs.tsx",
+    "local": "src/studio/components/BlockThumbs.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/BlockWaveform.tsx",
+    "area": "studio",
+    "name": "BlockWaveform",
+    "source": "packages/openfilm/studio/ui/src/components/BlockWaveform.tsx",
+    "local": "src/studio/components/BlockWaveform.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/BrandLoadingScreen.tsx",
+    "area": "studio",
+    "name": "BrandLoadingScreen",
+    "source": "packages/openfilm/studio/ui/src/components/BrandLoadingScreen.tsx",
+    "local": "src/studio/components/BrandLoadingScreen.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/BrandLogo.tsx",
+    "area": "studio",
+    "name": "BrandLogo",
+    "source": "packages/openfilm/studio/ui/src/components/BrandLogo.tsx",
+    "local": "src/studio/components/BrandLogo.tsx",
+    "status": "adapted",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": "保留尺寸与布局，替换为目标产品 AuricUI 标识。"
+  },
+  {
+    "id": "studio/Card.tsx",
+    "area": "studio",
+    "name": "Card",
+    "source": "packages/openfilm/studio/ui/src/components/Card.tsx",
+    "local": "src/components/Card.tsx",
+    "status": "ported",
+    "examples": [
+      "button",
+      "card"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ColorPicker.tsx",
+    "area": "studio",
+    "name": "ColorPicker",
+    "source": "packages/openfilm/studio/ui/src/components/ColorPicker.tsx",
+    "local": "src/components/ColorPicker.tsx",
+    "status": "ported",
+    "examples": [
+      "color"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ConfirmDialog.tsx",
+    "area": "studio",
+    "name": "ConfirmDialog",
+    "source": "packages/openfilm/studio/ui/src/components/ConfirmDialog.tsx",
+    "local": "src/components/ConfirmDialog.tsx",
+    "status": "ported",
+    "examples": [
+      "danger"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ContextMenu.tsx",
+    "area": "studio",
+    "name": "ContextMenu",
+    "source": "packages/openfilm/studio/ui/src/components/ContextMenu.tsx",
+    "local": "src/components/ContextMenu.tsx",
+    "status": "ported",
+    "examples": [
+      "context"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/DesktopDialog.tsx",
+    "area": "studio",
+    "name": "DesktopDialog",
+    "source": "packages/openfilm/studio/ui/src/components/DesktopDialog.tsx",
+    "local": "src/studio/components/DesktopDialog.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ExamplesGallery.tsx",
+    "area": "studio",
+    "name": "ExamplesGallery",
+    "source": "packages/openfilm/studio/ui/src/components/ExamplesGallery.tsx",
+    "local": "src/studio/components/ExamplesGallery.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-gallery"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/export/ExportCenter.tsx",
+    "area": "studio",
+    "name": "export/ExportCenter",
+    "source": "packages/openfilm/studio/ui/src/components/export/ExportCenter.tsx",
+    "local": "src/studio/components/export/ExportCenter.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/export/ExportTray.tsx",
+    "area": "studio",
+    "name": "export/ExportTray",
+    "source": "packages/openfilm/studio/ui/src/components/export/ExportTray.tsx",
+    "local": "src/studio/components/export/ExportTray.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/FilmFullscreenBar.tsx",
+    "area": "studio",
+    "name": "FilmFullscreenBar",
+    "source": "packages/openfilm/studio/ui/src/components/FilmFullscreenBar.tsx",
+    "local": "src/studio/components/FilmFullscreenBar.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/FilmInspector.tsx",
+    "area": "studio",
+    "name": "FilmInspector",
+    "source": "packages/openfilm/studio/ui/src/components/FilmInspector.tsx",
+    "local": "src/studio/components/FilmInspector.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/FilmStageSelect.tsx",
+    "area": "studio",
+    "name": "FilmStageSelect",
+    "source": "packages/openfilm/studio/ui/src/components/FilmStageSelect.tsx",
+    "local": "src/studio/components/FilmStageSelect.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/FocusNav.tsx",
+    "area": "studio",
+    "name": "FocusNav",
+    "source": "packages/openfilm/studio/ui/src/components/FocusNav.tsx",
+    "local": "src/components/FocusNav.tsx",
+    "status": "ported",
+    "examples": [
+      "global"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/FontFamilyPicker.tsx",
+    "area": "studio",
+    "name": "FontFamilyPicker",
+    "source": "packages/openfilm/studio/ui/src/components/FontFamilyPicker.tsx",
+    "local": "src/components/FontFamilyPicker.tsx",
+    "status": "adapted",
+    "examples": [
+      "font"
+    ],
+    "note": "原选择器；字体来源适配为浏览器本地可用字体检测。"
+  },
+  {
+    "id": "studio/FramePicker.tsx",
+    "area": "studio",
+    "name": "FramePicker",
+    "source": "packages/openfilm/studio/ui/src/components/FramePicker.tsx",
+    "local": "src/studio/components/FramePicker.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/inspector-fields.tsx",
+    "area": "studio",
+    "name": "inspector-fields",
+    "source": "packages/openfilm/studio/ui/src/components/inspector-fields.tsx",
+    "local": "src/components/inspector-fields.tsx",
+    "status": "ported",
+    "examples": [
+      "number",
+      "slider",
+      "metric",
+      "inspector"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/inspector-look.tsx",
+    "area": "studio",
+    "name": "inspector-look",
+    "source": "packages/openfilm/studio/ui/src/components/inspector-look.tsx",
+    "local": "src/studio/components/inspector-look.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/InspectorPanel.tsx",
+    "area": "studio",
+    "name": "InspectorPanel",
+    "source": "packages/openfilm/studio/ui/src/components/InspectorPanel.tsx",
+    "local": "src/studio/components/InspectorPanel.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/Launcher.tsx",
+    "area": "studio",
+    "name": "Launcher",
+    "source": "packages/openfilm/studio/ui/src/components/Launcher.tsx",
+    "local": "src/studio/components/Launcher.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-projects"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/LayersPanel.tsx",
+    "area": "studio",
+    "name": "LayersPanel",
+    "source": "packages/openfilm/studio/ui/src/components/LayersPanel.tsx",
+    "local": "src/studio/components/LayersPanel.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/LiveTime.tsx",
+    "area": "studio",
+    "name": "LiveTime",
+    "source": "packages/openfilm/studio/ui/src/components/LiveTime.tsx",
+    "local": "src/studio/components/LiveTime.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/MediaPool.tsx",
+    "area": "studio",
+    "name": "MediaPool",
+    "source": "packages/openfilm/studio/ui/src/components/MediaPool.tsx",
+    "local": "src/studio/components/MediaPool.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/MediaPreview.tsx",
+    "area": "studio",
+    "name": "MediaPreview",
+    "source": "packages/openfilm/studio/ui/src/components/MediaPreview.tsx",
+    "local": "src/studio/components/MediaPreview.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/MenuSelect.tsx",
+    "area": "studio",
+    "name": "MenuSelect",
+    "source": "packages/openfilm/studio/ui/src/components/MenuSelect.tsx",
+    "local": "src/components/MenuSelect.tsx",
+    "status": "ported",
+    "examples": [
+      "select",
+      "inspector"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/MgOutline.tsx",
+    "area": "studio",
+    "name": "MgOutline",
+    "source": "packages/openfilm/studio/ui/src/components/MgOutline.tsx",
+    "local": "src/studio/components/MgOutline.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/OperationHistory.tsx",
+    "area": "studio",
+    "name": "OperationHistory",
+    "source": "packages/openfilm/studio/ui/src/components/OperationHistory.tsx",
+    "local": "src/studio/components/OperationHistory.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/PaneDivider.tsx",
+    "area": "studio",
+    "name": "PaneDivider",
+    "source": "packages/openfilm/studio/ui/src/components/PaneDivider.tsx",
+    "local": "src/components/PaneDivider.tsx",
+    "status": "ported",
+    "examples": [
+      "divider"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/PasteAttrsDialog.tsx",
+    "area": "studio",
+    "name": "PasteAttrsDialog",
+    "source": "packages/openfilm/studio/ui/src/components/PasteAttrsDialog.tsx",
+    "local": "src/studio/components/PasteAttrsDialog.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/PlaybackMenu.tsx",
+    "area": "studio",
+    "name": "PlaybackMenu",
+    "source": "packages/openfilm/studio/ui/src/components/PlaybackMenu.tsx",
+    "local": "src/studio/components/PlaybackMenu.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/player-controls/controls-bar.tsx",
+    "area": "studio",
+    "name": "player-controls/controls-bar",
+    "source": "packages/openfilm/studio/ui/src/components/player-controls/controls-bar.tsx",
+    "local": "src/studio/components/player-controls/controls-bar.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/player-controls/transport.tsx",
+    "area": "studio",
+    "name": "player-controls/transport",
+    "source": "packages/openfilm/studio/ui/src/components/player-controls/transport.tsx",
+    "local": "src/studio/components/player-controls/transport.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/Popover.tsx",
+    "area": "studio",
+    "name": "Popover",
+    "source": "packages/openfilm/studio/ui/src/components/Popover.tsx",
+    "local": "src/components/Popover.tsx",
+    "status": "ported",
+    "examples": [
+      "popover"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectCover.tsx",
+    "area": "studio",
+    "name": "ProjectCover",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectCover.tsx",
+    "local": "src/studio/components/ProjectCover.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-projects"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectHistoryControls.tsx",
+    "area": "studio",
+    "name": "ProjectHistoryControls",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectHistoryControls.tsx",
+    "local": "src/studio/components/ProjectHistoryControls.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectLayoutMenu.tsx",
+    "area": "studio",
+    "name": "ProjectLayoutMenu",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectLayoutMenu.tsx",
+    "local": "src/studio/components/ProjectLayoutMenu.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectMenu.tsx",
+    "area": "studio",
+    "name": "ProjectMenu",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectMenu.tsx",
+    "local": "src/studio/components/ProjectMenu.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectsLibrary.tsx",
+    "area": "studio",
+    "name": "ProjectsLibrary",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectsLibrary.tsx",
+    "local": "src/studio/components/ProjectsLibrary.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-projects"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectSources.tsx",
+    "area": "studio",
+    "name": "ProjectSources",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectSources.tsx",
+    "local": "src/studio/components/ProjectSources.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-projects"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectsView.tsx",
+    "area": "studio",
+    "name": "ProjectsView",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectsView.tsx",
+    "local": "src/studio/components/ProjectsView.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-projects"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ProjectView.tsx",
+    "area": "studio",
+    "name": "ProjectView",
+    "source": "packages/openfilm/studio/ui/src/components/ProjectView.tsx",
+    "local": "src/studio/components/ProjectView.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/PropertiesSection.tsx",
+    "area": "studio",
+    "name": "PropertiesSection",
+    "source": "packages/openfilm/studio/ui/src/components/PropertiesSection.tsx",
+    "local": "src/studio/components/PropertiesSection.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ResourceInspector.tsx",
+    "area": "studio",
+    "name": "ResourceInspector",
+    "source": "packages/openfilm/studio/ui/src/components/ResourceInspector.tsx",
+    "local": "src/studio/components/ResourceInspector.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/SelectionToolbar.tsx",
+    "area": "studio",
+    "name": "SelectionToolbar",
+    "source": "packages/openfilm/studio/ui/src/components/SelectionToolbar.tsx",
+    "local": "src/studio/components/SelectionToolbar.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/AgentsSection.tsx",
+    "area": "studio",
+    "name": "settings/AgentsSection",
+    "source": "packages/openfilm/studio/ui/src/components/settings/AgentsSection.tsx",
+    "local": "src/studio/components/settings/AgentsSection.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/CustomServices.tsx",
+    "area": "studio",
+    "name": "settings/CustomServices",
+    "source": "packages/openfilm/studio/ui/src/components/settings/CustomServices.tsx",
+    "local": "src/studio/components/settings/CustomServices.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/DiagnosticsGroup.tsx",
+    "area": "studio",
+    "name": "settings/DiagnosticsGroup",
+    "source": "packages/openfilm/studio/ui/src/components/settings/DiagnosticsGroup.tsx",
+    "local": "src/studio/components/settings/DiagnosticsGroup.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/ModelsSection.tsx",
+    "area": "studio",
+    "name": "settings/ModelsSection",
+    "source": "packages/openfilm/studio/ui/src/components/settings/ModelsSection.tsx",
+    "local": "src/studio/components/settings/ModelsSection.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/ProviderMark.tsx",
+    "area": "studio",
+    "name": "settings/ProviderMark",
+    "source": "packages/openfilm/studio/ui/src/components/settings/ProviderMark.tsx",
+    "local": "src/studio/components/settings/ProviderMark.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/ProvidersSection.tsx",
+    "area": "studio",
+    "name": "settings/ProvidersSection",
+    "source": "packages/openfilm/studio/ui/src/components/settings/ProvidersSection.tsx",
+    "local": "src/studio/components/settings/ProvidersSection.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/SettingsModal.tsx",
+    "area": "studio",
+    "name": "settings/SettingsModal",
+    "source": "packages/openfilm/studio/ui/src/components/settings/SettingsModal.tsx",
+    "local": "src/studio/components/settings/SettingsModal.tsx",
+    "status": "adapted",
+    "examples": [
+      "settings",
+      "scene-settings"
+    ],
+    "note": "完整设置页已接入；Agent、服务商、模型、快捷键和存储使用本地服务。"
+  },
+  {
+    "id": "studio/settings/SettingsSelect.tsx",
+    "area": "studio",
+    "name": "settings/SettingsSelect",
+    "source": "packages/openfilm/studio/ui/src/components/settings/SettingsSelect.tsx",
+    "local": "src/components/settings/SettingsSelect.tsx",
+    "status": "ported",
+    "examples": [
+      "select",
+      "settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/ShortcutsSection.tsx",
+    "area": "studio",
+    "name": "settings/ShortcutsSection",
+    "source": "packages/openfilm/studio/ui/src/components/settings/ShortcutsSection.tsx",
+    "local": "src/studio/components/settings/ShortcutsSection.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/StorageGroup.tsx",
+    "area": "studio",
+    "name": "settings/StorageGroup",
+    "source": "packages/openfilm/studio/ui/src/components/settings/StorageGroup.tsx",
+    "local": "src/studio/components/settings/StorageGroup.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/settings/ui.tsx",
+    "area": "studio",
+    "name": "settings/ui",
+    "source": "packages/openfilm/studio/ui/src/components/settings/ui.tsx",
+    "local": "src/components/settings/ui.tsx",
+    "status": "ported",
+    "examples": [
+      "input",
+      "switch",
+      "segmented",
+      "settings"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/SkillsLibrary.tsx",
+    "area": "studio",
+    "name": "SkillsLibrary",
+    "source": "packages/openfilm/studio/ui/src/components/SkillsLibrary.tsx",
+    "local": "src/studio/components/SkillsLibrary.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-gallery"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/SourcePreview.tsx",
+    "area": "studio",
+    "name": "SourcePreview",
+    "source": "packages/openfilm/studio/ui/src/components/SourcePreview.tsx",
+    "local": "src/studio/components/SourcePreview.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/SpendAsks.tsx",
+    "area": "studio",
+    "name": "SpendAsks",
+    "source": "packages/openfilm/studio/ui/src/components/SpendAsks.tsx",
+    "local": "src/studio/components/SpendAsks.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/StageMaskOverlay.tsx",
+    "area": "studio",
+    "name": "StageMaskOverlay",
+    "source": "packages/openfilm/studio/ui/src/components/StageMaskOverlay.tsx",
+    "local": "src/studio/components/StageMaskOverlay.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/StageTransformFrame.tsx",
+    "area": "studio",
+    "name": "StageTransformFrame",
+    "source": "packages/openfilm/studio/ui/src/components/StageTransformFrame.tsx",
+    "local": "src/studio/components/StageTransformFrame.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/SubtitleInspector.tsx",
+    "area": "studio",
+    "name": "SubtitleInspector",
+    "source": "packages/openfilm/studio/ui/src/components/SubtitleInspector.tsx",
+    "local": "src/studio/components/SubtitleInspector.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/SubtitleOverlay.tsx",
+    "area": "studio",
+    "name": "SubtitleOverlay",
+    "source": "packages/openfilm/studio/ui/src/components/SubtitleOverlay.tsx",
+    "local": "src/studio/components/SubtitleOverlay.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/SubtitleRow.tsx",
+    "area": "studio",
+    "name": "SubtitleRow",
+    "source": "packages/openfilm/studio/ui/src/components/SubtitleRow.tsx",
+    "local": "src/studio/components/SubtitleRow.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/TabStrip.tsx",
+    "area": "studio",
+    "name": "TabStrip",
+    "source": "packages/openfilm/studio/ui/src/components/TabStrip.tsx",
+    "local": "src/studio/components/TabStrip.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/timeline-head-extras.tsx",
+    "area": "studio",
+    "name": "timeline-head-extras",
+    "source": "packages/openfilm/studio/ui/src/components/timeline-head-extras.tsx",
+    "local": "src/studio/components/timeline-head-extras.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/Timeline.tsx",
+    "area": "studio",
+    "name": "Timeline",
+    "source": "packages/openfilm/studio/ui/src/components/Timeline.tsx",
+    "local": "src/studio/components/Timeline.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/TimelineMarkers.tsx",
+    "area": "studio",
+    "name": "TimelineMarkers",
+    "source": "packages/openfilm/studio/ui/src/components/TimelineMarkers.tsx",
+    "local": "src/studio/components/TimelineMarkers.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/Toast.tsx",
+    "area": "studio",
+    "name": "Toast",
+    "source": "packages/openfilm/studio/ui/src/components/Toast.tsx",
+    "local": "src/components/Toast.tsx",
+    "status": "ported",
+    "examples": [
+      "toast"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/Tooltip.tsx",
+    "area": "studio",
+    "name": "Tooltip",
+    "source": "packages/openfilm/studio/ui/src/components/Tooltip.tsx",
+    "local": "src/components/Tooltip.tsx",
+    "status": "ported",
+    "examples": [
+      "tooltip"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/UpdateButton.tsx",
+    "area": "studio",
+    "name": "UpdateButton",
+    "source": "packages/openfilm/studio/ui/src/components/UpdateButton.tsx",
+    "local": "src/studio/components/UpdateButton.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/ViewerBar.tsx",
+    "area": "studio",
+    "name": "ViewerBar",
+    "source": "packages/openfilm/studio/ui/src/components/ViewerBar.tsx",
+    "local": "src/studio/components/ViewerBar.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  },
+  {
+    "id": "studio/WhatsNew.tsx",
+    "area": "studio",
+    "name": "WhatsNew",
+    "source": "packages/openfilm/studio/ui/src/components/WhatsNew.tsx",
+    "local": "src/studio/components/WhatsNew.tsx",
+    "status": "ported",
+    "examples": [
+      "scene-editor"
+    ],
+    "note": ""
+  }
+]

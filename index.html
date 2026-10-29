@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111111" />
+    <meta
+      name="description"
+      content="AuricUI 深色设计系统 · 可交互组件与主题配置工作台"
+    />
+    <title>AuricUI · 组件文档</title>
+    <script>
+      try {
+        if (localStorage.getItem('auricui.docs.theme') === 'light') document.documentElement.dataset.theme = 'light';
+      } catch {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

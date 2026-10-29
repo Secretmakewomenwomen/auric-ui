@@ -1,0 +1,50 @@
+# Dependencies and generated output
+node_modules/
+dist/
+/deploy/
+artifacts/
+/public/downloads/
+/packages/auricui-skill/skill/
+/skills/auricui/assets/library/
+*.tgz
+*.zip
+*.tsbuildinfo
+/src/docs/generated.json
+/src/library/styles.css
+/src/studio/lib/sample-assets.json
+/skills/auricui/references/library-manifest.json
+/skills/auricui/references/api-index.json
+
+# Local caches and verification
+.npm-cache/
+.playwright-cli/
+.verification/
+coverage/
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+.npmrc
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+htpasswd
+.auth/
+.aws/
+.codex/
+.agents/
+
+# Private infrastructure and working notes (retained locally)
+/deploy/registry/
+/task_plan.md
+/findings.md
+/progress.md

@@ -1,0 +1,4 @@
+interface:
+  display_name: "AuricUI 组件库开发"
+  short_description: "熟练使用 AuricUI 的组件 API、深色主题、动画与 AI 聊天服务接入"
+  default_prompt: "使用 $auricui 为当前项目开发界面，先检查依赖和组件 API，再接入主题、交互与业务服务。"

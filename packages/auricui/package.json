@@ -1,0 +1,70 @@
+{
+  "name": "auricui",
+  "version": "0.1.0-preview.4",
+  "description": "AuricUI dark UI components for React 19 — ESM only",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES.md",
+    "INTER-LICENSE",
+    "README.md",
+    "LOBE-ICONS-LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/library/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/library/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./studio": {
+      "types": "./dist/types/library/studio.d.ts",
+      "import": "./dist/studio.mjs"
+    },
+    "./chat": {
+      "types": "./dist/types/library/chat.d.ts",
+      "import": "./dist/chat.mjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json",
+    "./agent": {
+      "types": "./dist/types/library/agent.d.ts",
+      "import": "./dist/agent.mjs"
+    },
+    "./demo": {
+      "types": "./dist/types/library/samples.d.ts",
+      "import": "./dist/samples.mjs"
+    }
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^0.482.0",
+    "lexical": "0.49.0",
+    "@lexical/react": "0.49.0",
+    "yjs": "^13.6.33"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  },
+  "keywords": [
+    "react",
+    "dark-ui",
+    "tailwindcss",
+    "auricui",
+    "esm"
+  ],
+  "author": "hehuan"
+}

@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+const root=path.resolve(import.meta.dirname,'..');
+const dest=path.join(root,'artifacts');fs.mkdirSync(dest,{recursive:true});
+fs.mkdirSync(path.join(root,'.verification'),{recursive:true});
+const raw=execFileSync('npm',['pack','--ignore-scripts','--json','--pack-destination',dest,'--cache',path.join(root,'.verification/npm-cache')],{cwd:path.join(root,'packages/auricui'),encoding:'utf8'});
+const [result]=JSON.parse(raw);
+if(result.files.some(file=>file.path.endsWith('.cjs')||/demo|node_modules|\.verification/.test(file.path)))throw new Error('Package contains forbidden demo/build files');
+fs.writeFileSync(path.join(root,'.verification/pack-manifest.json'),JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({file:path.join(dest,result.filename),files:result.entryCount,size:result.size,unpackedSize:result.unpackedSize},null,2));

@@ -1,0 +1,163 @@
+/**
+ * The person's own keys for media services and who makes each kind of media, with which model ("fal.ai · Seedance 2.0"), as Settings → Providers and Models show them.
+ *
+ * Studio's server keeps the keys (studio/server/keys.mjs): this page sends a key once, when it is added, and only ever
+ * gets back where a key comes from and its last four characters.
+ */
+import React from 'react';
+
+export type ProviderVerb = 'voice' | 'tts' | 'sfx' | 'music' | 'asr' | 'image-search' | 'image' | 'video' | 'translate' | 'web-search' | 'web-fetch';
+
+
+export interface OwnProvider {
+  id: string;
+  name: string;
+  verbs: ProviderVerb[];
+  /** the models it can make each kind of media with, its default first, each with the name people know it by */
+  models: Partial<Record<ProviderVerb, { id: string; name: string }[]>>;
+  /** the provider's page for making a key */
+  keysUrl: string;
+  /** the environment variable a key is (or would be) read from */
+  env: string;
+  /** where its key comes from: kept by Studio, the environment, or none (not connected) */
+  source: 'file' | 'env' | null;
+  /** the environment has a key for it, connected or not: connecting can use that one */
+  envKey: boolean;
+  last4: string | null;
+}
+
+/**
+ * One of the person's custom services (studio/server/custom-services.mjs): any service at an address, reached by their
+ * agent with `openfilm get call`. `auth`: the header its key goes in when the agent does not place it ({key}).
+ */
+export interface OwnService {
+  id: string;
+  name: string;
+  url: string;
+  auth: string;
+  note: string;
+  last4: string | null;
+}
+
+/** What Settings sends for a service: no `key` keeps the one it has, '' takes it away; no `auth` keeps where it goes. */
+export type OwnServiceFields = { name: string; url: string; auth?: string; note: string; key?: string };
+
+export interface ProvidersState {
+  providers: OwnProvider[];
+  /** the person's own services */
+  custom: OwnService[];
+  /** the person's choice for each kind of media: a provider id, or null (none) */
+  use: Record<string, string | null>;
+  /** the model each kind of media is made with */
+  model: Record<string, string | null>;
+}
+
+/** The providers, not connected, that would make `verb` once connected, by name (as every list of providers is). */
+export function couldMake(state: ProvidersState, verb: ProviderVerb): string[] {
+  return state.providers.filter((p) => !p.source && p.verbs.includes(verb)).map((p) => p.name).sort((a, b) => a.localeCompare(b));
+}
+
+/** The providers Settings › Providers shows first, in this order: the large media services. */
+export const RECOMMENDED_PROVIDERS = ['openai', 'azure', 'google', 'elevenlabs'];
+
+/**
+ * Settings › Providers' two groups: the recommended ones in RECOMMENDED_PROVIDERS' order, then the rest by name.
+ * `open` says whether More starts open: when one of its providers is connected, so a connection is never hidden.
+ */
+export function providerGroups<P extends Pick<OwnProvider, 'id' | 'name' | 'source'>>(providers: readonly P[]) {
+  const recommended = RECOMMENDED_PROVIDERS.map((id) => providers.find((p) => p.id === id)).filter((p): p is P => Boolean(p));
+  const more = providers.filter((p) => !RECOMMENDED_PROVIDERS.includes(p.id)).sort((a, b) => a.name.localeCompare(b.name));
+  return { recommended, more, open: more.some((p) => p.source) };
+}
+
+/**
+ * Microsoft Azure's services, each set up with its own key and its resource's region (they are not one key, as
+ * Google's are): Azure AI Speech makes the voice-over. More go here as OpenFilm uses them.
+ */
+export const AZURE_SERVICES = [{ id: 'speech', name: 'Azure AI Speech', verbs: ['tts'] as ProviderVerb[] }];
+
+/** An Azure service's key as the server takes it: `<region>:<key>`; null while the region is not one (eastus, …). */
+export function azureKey(region: string, key: string): string | null {
+  const place = region.trim().toLowerCase();
+  return /^[a-z0-9]+$/.test(place) && key.trim() ? `${place}:${key.trim()}` : null;
+}
+
+/** Whether any provider here, connected or not, can make `verb`. */
+export const offered = (state: ProvidersState, verb: ProviderVerb) => state.providers.some((p) => p.verbs.includes(verb));
+
+/** The kinds of media the person chooses a provider for, in the order they are listed. */
+export const USE_VERBS: ProviderVerb[] = ['tts', 'music', 'sfx', 'asr', 'image', 'image-search', 'video', 'translate', 'web-search'];
+
+async function call<T = ProvidersState>(path: string, init?: { method: string; json?: unknown }): Promise<T> {
+  const res = await fetch(`/api/providers${path}`, {
+    method: init?.method ?? 'GET',
+    cache: 'no-store',
+    headers: init?.json === undefined ? undefined : { 'content-type': 'application/json' },
+    body: init?.json === undefined ? undefined : JSON.stringify(init.json),
+  });
+  const body = (await res.json().catch(() => ({}))) as { error?: string };
+  if (!res.ok) throw new Error(body.error ?? `Studio answered ${res.status}`);
+  return body as T;
+}
+
+export interface ProvidersHook {
+  state: ProvidersState | null;
+  problem: string | null;
+  /** the provider or kind of media the last change that failed was for (null: loading failed) */
+  problemFor: string | null;
+  /** the provider or kind of media a change is being saved for */
+  busy: string | null;
+  /** keep a key; resolves whether it was kept */
+  saveKey: (id: string, key: string) => Promise<boolean>;
+  removeKey: (id: string) => Promise<void>;
+  useEnvKey: (id: string) => Promise<boolean>;
+  /** who makes that kind of media: a provider id with its model, or '' (none) */
+  choose: (verb: ProviderVerb, provider: string, pick?: { model?: string }) => Promise<void>;
+  /** one of the person's own services added (id null) or changed; resolves whether it was kept */
+  saveService: (id: string | null, fields: OwnServiceFields) => Promise<boolean>;
+  removeService: (id: string) => Promise<void>;
+}
+
+/** The providers while Settings → Providers or Models is shown. */
+export function useProviders(): ProvidersHook {
+  const [state, setState] = React.useState<ProvidersState | null>(null);
+  const [problem, setProblem] = React.useState<string | null>(null);
+  const [problemFor, setProblemFor] = React.useState<string | null>(null);
+  const [busy, setBusy] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    let live = true;
+    let timer = 0;
+    /* asked again a few times when it fails: Studio restarting, or busy for a moment, must not leave Settings empty */
+    const load = (attempt: number) => {
+      call('').then(
+        (next) => { if (live) { setState(next); setProblem(null); setProblemFor(null); } },
+        (e: Error) => {
+          if (!live) return;
+          if (attempt < 4) timer = window.setTimeout(() => load(attempt + 1), 1000 * 2 ** attempt);
+          else setProblem(e.message);
+        },
+      );
+    };
+    load(0);
+    return () => { live = false; window.clearTimeout(timer); };
+  }, []);
+
+  const change = React.useCallback(async (what: string, path: string, init: { method: string; json?: unknown }) => {
+    setBusy(what);
+    setProblem(null);
+    try { setState(await call(path, init)); return true; }
+    catch (e) { setProblem(e instanceof Error ? e.message : String(e)); setProblemFor(what); return false; }
+    finally { setBusy(null); }
+  }, []);
+
+  return {
+    state, problem, problemFor, busy,
+    saveKey: (id, key) => change(id, `/${encodeURIComponent(id)}/key`, { method: 'PUT', json: { key } }),
+    removeKey: async (id) => { await change(id, `/${encodeURIComponent(id)}/key`, { method: 'DELETE' }); },
+    useEnvKey: (id) => change(id, `/${encodeURIComponent(id)}/key`, { method: 'PUT', json: { env: true } }),
+    choose: async (verb, provider, pick) => { await change(verb, '/use', { method: 'PUT', json: { verb, provider: provider || null, ...pick } }); },
+    saveService: (id, fields) => change(id ?? 'custom', id ? `/custom/${encodeURIComponent(id)}` : '/custom', { method: id ? 'PUT' : 'POST', json: fields }),
+    removeService: async (id) => { await change(id, `/custom/${encodeURIComponent(id)}`, { method: 'DELETE' }); },
+  };
+}

@@ -1,0 +1,38 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { build } from 'vite';
+const root=path.resolve(import.meta.dirname,'..');
+const consumer=path.join(root,'.verification/package-consumer');
+const dir=path.join(consumer,'node_modules/auricui');
+fs.rmSync(dir,{recursive:true,force:true});fs.mkdirSync(dir,{recursive:true});
+const manifest=JSON.parse(fs.readFileSync(path.join(root,'.verification/pack-manifest.json'),'utf8'));
+execFileSync('tar',['-xzf',path.join(root,'artifacts',manifest.filename),'--strip-components=1','-C',dir]);
+fs.writeFileSync(path.join(consumer,'package.json'),JSON.stringify({name:'esm-consumer-check',private:true,type:'module',dependencies:{'auricui':'file:../../artifacts/'+manifest.filename,react:'19.3.0','react-dom':'19.3.0'},devDependencies:{typescript:'5.9.3','@types/react':'19.3.0','@types/react-dom':'19.3.0'}}));
+fs.writeFileSync(path.join(consumer,'index.html'),'<html data-theme="dark"><head><meta charset="utf-8"></head><body><div id="root"></div><script type="module" src="/main.tsx"></script></body></html>');
+fs.writeFileSync(path.join(consumer,'main.tsx'),`
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {AuricUIProvider, CardButton, SettingsDialog, Table, Drawer, Tree, Checkbox, RadioGroup, Combobox, Tabs, Pagination} from 'auricui';
+import {MemoryCard, MessageBubble, Citation, ApprovalCard} from 'auricui/agent';
+import {Markdown, PromptEditor, type ChatServices} from 'auricui/chat';
+import {Timeline, SubtitleInspector, configureStudioTransport, type Film} from 'auricui/studio';
+import 'auricui/styles.css';
+const film:Film={tracks:[]};
+export function setup(services:ChatServices){configureStudioTransport({fetch:services.fetch});return film;}
+export const library=[Table,SettingsDialog,Timeline,SubtitleInspector,PromptEditor,Drawer,Tree,Checkbox,RadioGroup,Combobox,Tabs,Pagination,MemoryCard,MessageBubble,Citation,ApprovalCard];
+createRoot(document.getElementById('root')!).render(<AuricUIProvider><CardButton>保存</CardButton><section className="auricui-chat"><Markdown text="**ESM package works**"/></section></AuricUIProvider>);
+`);
+fs.writeFileSync(path.join(consumer,'tsconfig.json'),JSON.stringify({compilerOptions:{target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',jsx:'react-jsx',strict:true,noEmit:true,skipLibCheck:false,lib:['ES2022','DOM','DOM.Iterable']},include:['main.tsx']}));
+execFileSync(process.execPath,[path.join(root,'node_modules/typescript/bin/tsc'),'-p',path.join(consumer,'tsconfig.json')],{stdio:'inherit'});
+const checks=`import assert from 'node:assert/strict';import * as samples from 'auricui/demo';import * as core from 'auricui';import * as agent from 'auricui/agent';import * as studio from 'auricui/studio';import * as chat from 'auricui/chat';import {createElement} from 'react';import {renderToString} from 'react-dom/server';assert.equal(typeof samples.createStudioDemo,'function');assert.ok(core.CardButton);assert.ok(core.Table);assert.ok(core.Drawer);assert.ok(core.Tree);assert.ok(agent.MemoryCard);assert.ok(renderToString(createElement(agent.MessageBubble,{role:'assistant'},'ready')).includes('ready'));assert.ok(studio.ProjectView);assert.ok(chat.ProjectConversation);assert.ok(renderToString(createElement(core.CardButton,{},'保存')).includes('保存'));assert.ok(renderToString(createElement(chat.Markdown,{text:'**工作正常**'})).includes('工作正常'));console.log('Node ESM import and SSR smoke passed');`;
+fs.writeFileSync(path.join(consumer,'smoke.mjs'),checks);
+execFileSync(process.execPath,[path.join(consumer,'smoke.mjs')],{stdio:'inherit'});
+await build({configFile:false,root:consumer,logLevel:'warn',build:{outDir:'dist',emptyOutDir:true}});
+const css=fs.readFileSync(path.join(dir,'dist/styles.css'),'utf8');
+if(/@import\s+['"](?:tailwindcss|@fontsource)|@tailwind|@source|@custom-variant/.test(css))throw new Error('Published CSS still needs a source processor');
+if(!css.includes('.auricui-table')||!css.includes('.auricui-drawer')||!css.includes('.auricui-tree')||!css.includes('.auricui-memory'))throw new Error('New component styles missing');
+if(!css.includes('.auricui-chat')||!css.includes('auricui-rise'))throw new Error('Theme scope or animation is missing');
+const assets=path.join(consumer,'dist/assets');
+if(!fs.readdirSync(assets).some(name=>name.endsWith('.js')))throw new Error('Consumer did not produce browser JavaScript');
+console.log('Tarball consumer passed: NodeNext declarations, ESM/SSR, browser build and compiled CSS.');

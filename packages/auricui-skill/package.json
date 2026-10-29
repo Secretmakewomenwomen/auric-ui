@@ -1,0 +1,31 @@
+{
+  "name": "auricui-skill",
+  "version": "0.1.2",
+  "description": "Install the AuricUI component-library skill for coding agents",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "auricui-skill": "bin/install.mjs"
+  },
+  "files": [
+    "bin",
+    "skill",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "keywords": [
+    "auricui",
+    "agent",
+    "skill",
+    "react",
+    "ui"
+  ],
+  "author": "hehuan"
+}
