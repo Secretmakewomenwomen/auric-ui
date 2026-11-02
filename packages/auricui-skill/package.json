@@ -3,6 +3,19 @@
   "version": "0.1.4",
   "description": "Install the AuricUI component-library skill for coding agents",
   "type": "module",
+  "author": {
+    "name": "hehuan",
+    "url": "https://github.com/Secretmakewomenwomen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Secretmakewomenwomen/auric-ui.git",
+    "directory": "packages/auricui-skill"
+  },
+  "homepage": "https://github.com/Secretmakewomenwomen/auric-ui#readme",
+  "bugs": {
+    "url": "https://github.com/Secretmakewomenwomen/auric-ui/issues"
+  },
   "license": "MIT",
   "bin": {
     "auricui-skill": "bin/install.mjs"
@@ -26,6 +39,5 @@
     "skill",
     "react",
     "ui"
-  ],
-  "author": "hehuan"
+  ]
 }

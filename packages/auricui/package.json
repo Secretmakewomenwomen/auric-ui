@@ -3,6 +3,19 @@
   "version": "0.1.0-preview.5",
   "description": "AuricUI dark UI components for React 19 — ESM only",
   "type": "module",
+  "author": {
+    "name": "hehuan",
+    "url": "https://github.com/Secretmakewomenwomen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Secretmakewomenwomen/auric-ui.git",
+    "directory": "packages/auricui"
+  },
+  "homepage": "https://github.com/Secretmakewomenwomen/auric-ui#readme",
+  "bugs": {
+    "url": "https://github.com/Secretmakewomenwomen/auric-ui/issues"
+  },
   "license": "MIT",
   "files": [
     "dist",
@@ -65,6 +78,5 @@
     "tailwindcss",
     "auricui",
     "esm"
-  ],
-  "author": "hehuan"
+  ]
 }

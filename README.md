@@ -1,112 +1,125 @@
 # AuricUI
 
-**面向 AI 应用的 React 组件库，从基础交互到聊天与编辑工作台。**
+**English** | [简体中文](./README.zh-CN.md)
 
-AuricUI 将表单、消息、工具调用、项目管理和媒体编辑组件放在统一的视觉系统中。以深色界面为起点，支持浅色主题，帮助你搭建 AI 助手、Agent 工作台和内容创作工具。
+**A React component library for AI applications, from everyday interactions to chat and editing workspaces.**
 
-![AuricUI 文档站预览：深色主题、组件导航与快速开始](./docs/images/image1.png)
+AuricUI brings forms, messages, tool calls, project management, and media editing into a shared visual system. Built around a dark theme with light mode support, it helps you create AI assistants, agent workspaces, and content creation tools.
 
-[在线文档与演示](https://coderclouds.com:8443/#/start) · [快速开始](#快速开始) · [组件入口](#组件入口) · [运行文档](#运行文档) · [参与贡献](./CONTRIBUTING.md)
+![AuricUI documentation preview: dark theme, component navigation, and quick start](./docs/images/image1.png)
 
-## 特性
+[Documentation & demos](https://coderclouds.com:8443/#/start) · [Quick start](#quick-start) · [Package entry points](#package-entry-points) · [Run the documentation](#run-the-documentation) · [Contributing](./CONTRIBUTING.md)
 
-- **覆盖日常交互与 AI 场景**：从按钮、表格和弹窗，到消息、引用、工具执行、操作确认与记忆展示。
-- **支持复杂工作台**：提供富文本输入、模型菜单、时间轴、图层、素材和属性面板，可按业务需要组合。
-- **主题与动效随包提供**：深浅主题、CSS 变量、Inter 字体和过渡动画，无需额外配置 Tailwind 即可使用组件样式。
-- **示例与实际组件一致**：文档中的预览和可复制代码共用示例源，属性信息从 TypeScript 提取，并通过包消费检查。
+Author: [hehuan](https://github.com/Secretmakewomenwomen) · [GitHub](https://github.com/Secretmakewomenwomen/auric-ui)
 
-## 快速开始
+## Features
 
-### 1. 安装组件库
+- **Everyday controls and AI interactions**: buttons, tables, and dialogs alongside messages, citations, tool execution, approvals, and memory displays.
+- **Composable workspaces**: rich text input, model menus, timelines, layers, assets, and inspector panels you can combine for your application.
+- **Themes and motion included**: dark and light themes, CSS variables, the Inter font, and transitions. Component styles work without additional Tailwind configuration.
+- **Examples backed by real components**: documentation previews and copyable code share the same example sources. Prop information comes from TypeScript, and package consumption is checked during validation.
 
-在已有 **React 19 + React DOM 19** 项目中安装：
+## Quick start
+
+### 1. Install the component library
+
+In an existing **React 19 + React DOM 19** project, run:
 
 ```bash
 npm install auricui@next
 ```
 
-### 2. 安装 Skill，让 AI 帮你搭建界面
+### 2. Install the Skill to build interfaces with your AI agent
 
-AuricUI 配套提供编程 Agent Skill，包含组件选择、API 查询、主题配置、业务接入指南和可编译示例。安装后，可以直接描述你想要的页面，让 Agent 按组件库的实际接口实现。
+AuricUI includes a coding agent Skill with component selection guidance, API lookup tools, theme configuration, service integration guides, and compilable examples. Once installed, describe the page you want and have your agent implement it using the library's actual APIs.
 
-Skill 采用按需读取：入口保留关键约束，Agent 先搜索组件，再查询单个组件的参数，需要时才加载一个示例或对应的业务指南。参数优先来自项目实际安装的版本，避免一次把整个组件索引和全部示例放入上下文。
+The Skill loads information on demand. Its entry point keeps the essential constraints; the agent searches for components, looks up individual APIs, and loads a specific example or integration guide when needed. API queries prefer the version installed in your project, keeping the full component index and example collection out of the initial context.
 
-在你的应用项目根目录执行：
+Run this from your application project's root:
 
 ```bash
 npx auricui-skill@latest
 ```
 
-默认安装到当前项目的 `.agents/skills/auricui`。如果希望在 Codex 的多个项目中使用，可以选择全局安装：
+By default, the Skill is installed in `.agents/skills/auricui` in the current project. To use it across Codex projects, install it globally:
 
 ```bash
 npx auricui-skill@latest --global
 ```
 
-安装后刷新 Agent 的技能列表或新开会话，在对话中使用 `$auricui` 并说明需求，例如：
+Refresh your agent's Skill list or start a new session, then mention `$auricui` in your message. For example:
 
 ```text
-使用 $auricui，为当前项目搭建一个 AI 助手工作台：
-左侧是会话列表，中间是聊天内容，底部是消息输入区。
-支持深浅主题切换、流式回复和工具调用状态。
-先检查项目中安装的组件版本与 API，再实现页面；业务请求通过回调接入。
+Use $auricui to build an AI assistant workspace for this project:
+a conversation list on the left, chat in the center, and a message input at the bottom.
+Support dark and light themes, streaming responses, and tool call status.
+Check the installed component version and APIs first, then implement the page.
+Connect application requests through callbacks.
 ```
 
-Skill 安装器只安装指南和工具，组件库仍通过上面的 `npm install` 安装。其他支持 `SKILL.md` 的 Agent 可通过 `--dir <技能父目录>` 指定位置；不自动发现技能的工具，可让它读取安装目录中的 `SKILL.md`。更新已有安装时，在原安装命令后加 `--update`，安装器会先备份旧版本。更多选项见 [Skill 使用说明](./packages/auricui-skill/README.md)。
+The Skill installer installs the guides and tools; install the component library separately with the `npm install` command above. For other agents that support `SKILL.md`, use `--dir <skills-parent-directory>` to choose the location. If your tool does not discover Skills automatically, ask it to read `SKILL.md` in the installation directory. To update an existing installation, add `--update` to the original command; the installer backs up the previous version first. See the [Skill guide](./packages/auricui-skill/README.md) for more options.
 
-#### 第一次使用：让 Agent 先了解项目
+#### First use: let the agent understand your project
 
-在编程工具中打开你的应用项目，再把需求发送到对话框。`$auricui` 写在给 Agent 的消息里，无需在终端执行。第一次接入时，可以先让它检查项目结构和依赖，再实现一个小页面：
+Open your application project in your coding tool and send your request in the conversation. Mention `$auricui` in your message to the agent. For an initial integration, have it inspect the project structure and dependencies before building a small page:
 
 ```text
-使用 $auricui，先检查当前项目的框架、React 版本和已安装的 AuricUI 导出。
-沿用现有路由和包管理器，接入全局样式与主题，避免重复挂载 Provider。
-然后实现一个应用设置页，包含主题切换、通知开关和保存反馈。
+Use $auricui. First inspect this project's framework, React version, and installed AuricUI exports.
+Keep the existing router and package manager, and configure global styles and the theme
+without mounting duplicate Providers.
+Then build an application settings page with a theme switch, notification toggles,
+and save feedback.
 ```
 
-如果 Agent 没有识别技能，项目内安装的用户可以告诉它：“请先读取 `.agents/skills/auricui/SKILL.md`，按其中的指南完成任务。”全局或自定义安装则使用安装器输出的实际路径。Skill 附带的依赖与 API 查询脚本需要 Python 3，可由 Agent 按指南运行。
+If the agent does not recognize a project-local Skill, tell it: "Read `.agents/skills/auricui/SKILL.md` first, then follow its guidance for this task." For global or custom installations, use the path printed by the installer. The included dependency and API lookup scripts require Python 3 and can be run by the agent as described in the guide.
 
-#### 描述需求：说明布局、交互和数据来源
+#### Describe the layout, interactions, and data sources
 
-不需要提前列出每个组件名。告诉 Agent 页面给谁用、有哪些区域、点击后应发生什么，并提供已有接口或数据类型，它就能据此选择组件。尚未接入后端时，明确要求使用本地示例数据，并保留业务回调：
+You do not need to name every component in advance. Explain who the page is for, its main sections, and what should happen when someone interacts with it. Provide existing APIs or data types so the agent can choose suitable components. If the backend is not ready, request local sample data and application callbacks:
 
 ```text
-使用 $auricui，搭建一个任务管理页面。
-顶部放搜索和状态筛选，中间用表格展示任务，点击任务后在右侧抽屉查看详情。
-支持加载中、空列表和请求失败状态，窄屏下也要可用。
-先用本地示例数据，搜索、保存和删除通过回调接入，方便以后替换成真实接口。
+Use $auricui to build a task management page.
+Place search and status filters at the top, show tasks in a table, and open task details
+in a drawer on the right when a row is clicked.
+Handle loading, empty, and error states, and make the layout work on narrow screens.
+Use local sample data for now. Expose search, save, and delete callbacks
+so they can be connected to real APIs later.
 ```
 
-#### 改造已有页面：指出范围和需要保留的行为
+#### Update an existing page: define the scope and behavior to preserve
 
-Skill 也适合渐进替换现有界面。附上目标文件或让 Agent 定位页面，说明要保留的业务逻辑、需要调整的视觉细节，以及允许修改的范围：
+The Skill also supports gradual adoption. Share the target files or have the agent locate the page, then describe the business logic to preserve, the visual changes you want, and the allowed scope:
 
 ```text
-使用 $auricui，改造现有的用户设置页面。
-保留当前表单字段、校验规则、接口调用和路由，仅替换界面组件并统一样式。
-按钮圆角设为 6px，使用克制的聚焦样式，补充保存中的禁用状态和结果反馈。
-先核对已安装组件支持的 props，不支持的部分用应用层组合实现。
+Use $auricui to update the existing user settings page.
+Keep the current form fields, validation, API calls, and routing.
+Replace the UI components and make the styling consistent.
+Use a 6px button radius and subtle focus styles; disable controls while saving
+and show the result afterward.
+Check which props the installed components support, and compose application-level
+solutions for anything they do not provide.
 ```
 
-#### 继续迭代：把反馈变成可验证的要求
+#### Keep iterating with requirements you can verify
 
-页面生成后，可以继续用自然语言调整：“缩小侧栏宽度”“增加空状态”“让抽屉支持键盘关闭”。涉及 bug 时，提供触发步骤、实际表现与期望结果；例如“切换到工作台后滚动到底部出现空白，期望页面固定一屏，各面板内部滚动”。
+After the first implementation, refine it with requests such as "make the sidebar narrower," "add an empty state," or "let the drawer close with the keyboard." For bugs, include the steps to reproduce, the actual behavior, and the expected result. For example: "Scrolling to the bottom of the workspace reveals a blank area. Keep the page within the viewport and let each panel scroll internally."
 
-完成前，可以让 Agent 做一次验收：
+Before finishing, ask the agent to verify the work:
 
 ```text
-请按 AuricUI Skill 检查这次改动：
-确认使用的是已安装版本的公开组件和 props，样式与 Provider 已正确接入。
-运行项目现有的类型检查和构建，在可用的浏览器环境中验证键盘操作、
-深浅主题、窄屏布局，以及加载、空数据和错误状态。
-最后列出已验证的结果、仍使用模拟数据的功能和未能验证的部分。
+Review these changes using the AuricUI Skill.
+Confirm that the page uses public components and props from the installed version,
+and that styles and Providers are configured correctly.
+Run the project's existing type checks and build. In an available browser,
+verify keyboard interaction, both themes, narrow layouts, and loading, empty, and error states.
+Report what was verified, which features still use mock data, and anything that could not be checked.
 ```
 
-### 3. 最小接入示例
+### 3. Minimal integration
 
-AuricUI 提供 ESM 和 TypeScript 类型声明，也可在 JavaScript 项目中使用。`next` 为 npm 预览渠道，可能落后于仓库源码；安装版本以项目锁文件为准。
+AuricUI ships ESM and TypeScript declarations and can also be used in JavaScript projects. The `next` npm channel contains preview releases and may lag behind the repository. Your project's lockfile determines the installed version.
 
-在应用入口导入样式，并在根部挂载一次 `AuricUIProvider`：
+Import the styles at your application entry point and mount `AuricUIProvider` once at the root:
 
 ```tsx
 import { useState } from 'react';
@@ -130,7 +143,7 @@ export default function App() {
           weight="primary"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         >
-          切换到{theme === 'dark' ? '浅色' : '深色'}主题
+          Switch to {theme === 'dark' ? 'light' : 'dark'} theme
         </CardButton>
       </main>
     </AuricUIProvider>
@@ -138,28 +151,28 @@ export default function App() {
 }
 ```
 
-在初始 HTML 中设置 `<html data-theme="dark">`，让首屏与默认主题保持一致。使用 Chat 组件时，将对应内容放入 `.auricui-chat` 容器。自定义配色、Portal 和服务接入说明见 [组件包文档](./packages/auricui/README.md)。
+Set `<html data-theme="dark">` in the initial HTML so the first render matches the default theme. Wrap Chat components in an `.auricui-chat` container. See the [component package guide](./packages/auricui/README.md) for custom colors, portals, and service integration.
 
-## 组件入口
+## Package entry points
 
-按使用场景选择入口：
+Choose the entry point that fits your use case:
 
-| 入口 | 提供的能力 |
+| Entry point | Includes |
 | --- | --- |
-| `auricui` | 按钮、表单、Table、Drawer、Tree、Tabs、主题 Provider 等基础组件 |
-| `auricui/agent` | 消息、引用、工具执行、操作确认、记忆、目标和简报 |
-| `auricui/chat` | 富文本输入、Markdown、模型菜单和聊天组件 |
-| `auricui/studio` | 时间轴、图层、素材、项目和编辑器组件 |
-| `auricui/demo` | 浏览器内的本地演示数据、模拟宿主与素材 |
-| `auricui/styles.css` | 编译好的组件样式、字体与动画 |
+| `auricui` | Buttons, forms, Table, Drawer, Tree, Tabs, the theme Provider, and other primitives |
+| `auricui/agent` | Messages, citations, tool execution, approvals, memories, goals, and briefings |
+| `auricui/chat` | Rich text input, Markdown, model menus, and chat components |
+| `auricui/studio` | Timelines, layers, assets, projects, and editor components |
+| `auricui/demo` | Local browser demo data, mock hosts, and sample assets |
+| `auricui/styles.css` | Compiled component styles, fonts, and animations |
 
-基础组件与 Agent 组件通过 props 和回调连接业务。部分 Chat / Studio 组合组件需要配置服务适配器，由应用提供模型调用、项目持久化和媒体处理等能力。文档中的完整场景用于展示组合效果，这些服务行为使用本地模拟。
+Primitive and Agent components connect to your application through props and callbacks. Some composed Chat and Studio components require service adapters supplied by your application for model requests, project persistence, and media processing. Full scenarios in the documentation demonstrate composition using local mock services.
 
-## 运行文档
+## Run the documentation
 
-文档站提供组件预览、可复制示例、属性说明和主题配置，以及聊天工作台、专业编辑器、项目管理、应用设置、模板与技能库五个完整场景。
+The documentation site includes component previews, copyable examples, prop references, and theme configuration. It also provides five complete scenarios: a chat workspace, a professional editor, project management, application settings, and a template and Skill library.
 
-克隆仓库后，在根目录执行：
+After cloning the repository, run these commands from the root:
 
 ```bash
 npm ci
@@ -167,82 +180,82 @@ npm run build
 npm run dev
 ```
 
-打开 **<http://127.0.0.1:5178/#/start>**。
+Open **<http://127.0.0.1:5178/#/start>**.
 
-源码开发需要 Node.js 22.12+、npm 和 `tar`；完整验证还需要 Python 3。推荐使用 `.nvmrc` 指定的 Node.js 22。首次构建会自动生成组件库、Skill 安装包及文档下载资源，无需 npm 登录或 Docker。
+Source development requires Node.js 22.12+, npm, and `tar`; full validation also requires Python 3. Use the Node.js 22 version specified in `.nvmrc`. The first build generates the component library, Skill installer package, and documentation downloads automatically. No npm login or Docker setup is needed for this workflow.
 
-后续开发可直接运行 `npm run dev`。修改公开 API 或文档示例后，执行 `npm run docs:generate` 更新文档数据。
+For subsequent development, run `npm run dev` directly. After changing public APIs or documentation examples, run `npm run docs:generate` to refresh the documentation data.
 
-## 开发与验证
+## Development and validation
 
-| 命令 | 用途 |
+| Command | Purpose |
 | --- | --- |
-| `npm run dev` | 启动文档开发服务器 |
-| `npm run prepare:docs` | 生成本地安装包、API 文档和下载资源 |
-| `npm run pack:lib` | 构建并打包当前组件库 |
-| `npm run build` | 构建组件库、Skill 与静态文档站 |
-| `npm run check` | 执行组件测试、包消费、文档示例和 Skill 安装器检查 |
+| `npm run dev` | Start the documentation development server |
+| `npm run prepare:docs` | Generate local packages, API documentation, and downloads |
+| `npm run pack:lib` | Build and pack the current component library |
+| `npm run build` | Build the component library, Skill, and static documentation site |
+| `npm run check` | Run component tests, package consumption checks, documentation example checks, and Skill installer checks |
 
-提交前执行 `npm run build` 和 `npm run check`。检查覆盖类型声明、ESM 导入、SSR、浏览器构建与文档示例编译；界面交互还需在浏览器中验证，具体要求见 [贡献指南](./CONTRIBUTING.md)。
+Run `npm run build` and `npm run check` before submitting changes. Validation covers type declarations, ESM imports, SSR, browser builds, and documentation example compilation. UI interactions also need browser verification; see the [contributing guide](./CONTRIBUTING.md) for details.
 
-需要在其他项目中试用尚未发布的修改时，运行 `npm run pack:lib`，将 `artifacts/` 中生成的组件库 tgz 复制到目标项目，再通过 `npm install ./vendor/实际文件名.tgz` 安装。
+To try unpublished changes in another project, run `npm run pack:lib`, copy the generated component library tarball from `artifacts/` into that project, and install it with `npm install ./vendor/your-package.tgz`, using the actual filename.
 
 <details>
-<summary>源码目录</summary>
+<summary>Source layout</summary>
 
-| 目录 | 内容 |
+| Directory | Contents |
 | --- | --- |
-| `src/components/primitives/`、`src/agent/` | 基础与 Agent 组件 |
-| `src/chat/`、`src/studio/`、`src/engine/` | 聊天、编辑器与浏览器算法 |
-| `src/library/`、`src/styles/` | 公开入口、Provider 与样式 |
-| `src/docs/`、`src/demo/` | 文档、组件示例和场景预览 |
-| `public/demo-film/` | 本地演示素材 |
-| `packages/` | npm 包配置与安装器源码 |
-| `skills/auricui/` | Skill 指南、示例、工具与上游参考快照 |
-| `scripts/` | 构建、检查与发布脚本 |
+| `src/components/primitives/`, `src/agent/` | Primitive and Agent components |
+| `src/chat/`, `src/studio/`, `src/engine/` | Chat, editors, and browser algorithms |
+| `src/library/`, `src/styles/` | Public entry points, Provider, and styles |
+| `src/docs/`, `src/demo/` | Documentation, component examples, and scenario previews |
+| `public/demo-film/` | Local demo assets |
+| `packages/` | npm package configuration and installer source |
+| `skills/auricui/` | Skill guides, examples, tools, and upstream reference snapshots |
+| `scripts/` | Build, validation, and release scripts |
 
-构建产物位于 `dist/`、`artifacts/` 等目录，由脚本生成，不提交到 Git。
+Build outputs in `dist/`, `artifacts/`, and other generated directories are created by scripts and are not committed to Git.
 
 </details>
 
-## 部署与发布
+## Deployment and releases
 
-文档站构建产物位于 `dist/`，可使用仓库中的 [Dockerfile](./Dockerfile) 制作静态站点镜像。镜像构建、推送与服务器更新步骤见 [部署说明](./deploy/README.md)。
+The documentation site is built into `dist/`. Use the repository's [Dockerfile](./Dockerfile) to create a static site image.
 
 <details>
-<summary>维护者：发布 npm 包</summary>
+<summary>Maintainers: publish npm packages</summary>
 
-修改完 `skills/auricui/` 中的指南和示例后，可使用 Skill 维护工作流：
+After updating the guides and examples in `skills/auricui/`, use the Skill maintenance workflow:
 
 ```bash
-# 同步组件索引和示例、构建安装包与文档、执行全部检查
+# Sync the component index and examples, build packages and docs, and run all checks
 bash scripts/maintain-skill.sh
 
-# 检查通过后递增 Skill 版本、发布 npm，并更新本机 Codex Skill
+# After validation, bump the Skill version, publish to npm, and update the local Codex Skill
 bash scripts/maintain-skill.sh --publish --install-global
 ```
 
-仅在本机试用时使用 `--install-global`，不加 `--publish`。脚本不会自动编写缺失的组件教程；可用参数和失败恢复方式见 [Skill 维护流程](./CONTRIBUTING.md#skill-维护流程)。
+For local use only, pass `--install-global` without `--publish`. The script does not write missing component tutorials automatically. See the [Skill maintenance workflow](./CONTRIBUTING.md#skill-维护流程) for options and failure recovery.
 
-组件库及组合发布命令：
+Component library and combined release commands:
 
 ```bash
-npm run release -- --dry-run # 校验组件库发布流程，不上传
-npm run release             # 递增版本并发布组件库
-npm run release:skill       # 递增版本并发布 Skill
-npm run release:all         # 发布两者
+npm run release -- --dry-run # Validate the library release without uploading
+npm run release             # Bump the version and publish the component library
+npm run release:skill       # Bump the version and publish the Skill
+npm run release:all         # Publish both packages
 ```
 
-单独发布 Skill 前先执行 `npm run prepare:docs`。实际发布需要对应的 npm 权限；组件库预览版本使用 `next` 标签，Skill 使用 `latest` 标签。日常构建和 CI 只生成产物并运行检查。
+Run `npm run prepare:docs` before publishing the Skill on its own. Publishing requires the appropriate npm permissions. Library previews use the `next` tag; the Skill uses `latest`. Regular builds and CI generate artifacts and run validation.
 
 </details>
 
-## 参与贡献
+## Contributing
 
-欢迎反馈使用问题、改进文档与可访问性，或提交组件修复。开始前请阅读 [贡献指南](./CONTRIBUTING.md)，了解开发流程、验证要求和提交范围。
+Bug reports, documentation and accessibility improvements, and component fixes are welcome. Read the [contributing guide](./CONTRIBUTING.md) for the development workflow, validation requirements, and contribution scope. The contributing guide and detailed package guides are currently in Chinese.
 
-## 许可与致谢
+## License and acknowledgments
 
-AuricUI 采用 [MIT License](./LICENSE)。部分 Chat / Studio UI 与浏览器算法来自 OpenFilm，保留其 [原始 MIT 许可证](./OPENFILM-LICENSE)。感谢 OpenFilm 及相关开源项目的贡献。
+AuricUI is licensed under the [MIT License](./LICENSE). Parts of the Chat and Studio UI and browser algorithms come from OpenFilm and retain its [original MIT license](./OPENFILM-LICENSE). Thanks to OpenFilm and the other open source projects that make this work possible.
 
-字体、服务商图标及其他依赖的来源和许可见 [第三方声明](./THIRD-PARTY-NOTICES.md)。
+See [Third-party notices](./THIRD-PARTY-NOTICES.md) for font, provider icon, and dependency attribution and licenses.

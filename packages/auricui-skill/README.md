@@ -1,5 +1,9 @@
 # AuricUI Skill
 
+作者 / Author：[hehuan](https://github.com/Secretmakewomenwomen) · [GitHub](https://github.com/Secretmakewomenwomen/auric-ui)
+
+项目介绍 / Overview：[English](https://github.com/Secretmakewomenwomen/auric-ui#readme) | [简体中文](https://github.com/Secretmakewomenwomen/auric-ui/blob/main/README.zh-CN.md)
+
 为编码 Agent 安装 AuricUI 组件库指南，包括 API 查询、基础组件、Agent / Personal Agent、AI 聊天、Studio、主题动画、依赖检查和可编译示例。需要 Node.js >=20.19；附带的依赖/API 检查工具使用 Python 3 标准库。
 
 此 npm 包是 Skill 安装器，React 组件库本身为 `auricui`。安装器只复制技能文件；在应用中安装 UI 库由 Agent 按 Skill 指南完成。

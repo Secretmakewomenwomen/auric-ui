@@ -1,5 +1,9 @@
 # AuricUI
 
+作者 / Author：[hehuan](https://github.com/Secretmakewomenwomen) · [GitHub](https://github.com/Secretmakewomenwomen/auric-ui)
+
+项目介绍 / Overview：[English](https://github.com/Secretmakewomenwomen/auric-ui#readme) | [简体中文](https://github.com/Secretmakewomenwomen/auric-ui/blob/main/README.zh-CN.md)
+
 React 19 的深色组件与交互系统。仅提供 ESM（`.mjs`），包含 TypeScript 声明和编译好的 CSS，不提供 CJS。
 
 版本号以随包的 `package.json` 为准。包含 30 个 Agent / Personal Agent 组件和 13 个基础组件。文档提供可复制示例、常见状态、属性默认值与主题配置。

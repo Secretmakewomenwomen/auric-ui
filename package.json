@@ -3,7 +3,18 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "author": "hehuan",
+  "author": {
+    "name": "hehuan",
+    "url": "https://github.com/Secretmakewomenwomen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Secretmakewomenwomen/auric-ui.git"
+  },
+  "homepage": "https://github.com/Secretmakewomenwomen/auric-ui#readme",
+  "bugs": {
+    "url": "https://github.com/Secretmakewomenwomen/auric-ui/issues"
+  },
   "license": "MIT",
   "scripts": {
     "release": "node scripts/release.mjs",
