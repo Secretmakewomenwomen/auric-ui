@@ -1,7 +1,86 @@
 import { useEffect, useId, useState } from 'react';
 import { Check, LoaderCircle } from 'lucide-react';
-import { Table, CardButton, SettingsField, SettingsSwitch, Textarea, RadioGroup, Combobox, Progress, Avatar, Pagination, EmptyState, Skeleton, MenuSelect, Checkbox } from '../../library/index';
+import { Table, CardButton, SettingsField, SettingsSwitch, Textarea, RadioGroup, Combobox, Dropdown, Tag, Badge, Alert, Popconfirm, Progress, Avatar, Pagination, EmptyState, Skeleton, MenuSelect, Checkbox } from '../../library/index';
 import { ToolCall, ApprovalCard, AttachmentChip, ConnectorCard, ContextUsage, Checkpoint, ConversationList, PromptTemplate } from '../../library/agent';
+
+export function TagStatesExample() {
+  const [tags, setTags] = useState(['调研', '线框图', '视觉设计']);
+  const [message, setMessage] = useState('关闭标签后，等待退场结束再从列表移除。');
+  return <div style={{ display: 'grid', gap: 16, width: '100%' }}>
+    <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+      {tags.map(value => <Tag key={value} closable closeLabel={`移除${value}`} onAfterClose={() => setTags(current => current.filter(item => item !== value))}>{value}</Tag>)}
+      <Tag closable onClose={event => { event.preventDefault(); setMessage('固定标签需要管理员权限才能移除。'); }} closeLabel="移除固定标签">固定标签</Tag>
+      <Tag size="sm" variant="outline" disabled closable>只读</Tag>
+    </div>
+    <div><CardButton onClick={() => setTags(['调研', '线框图', '视觉设计'])}>恢复列表</CardButton></div>
+    <p role="status" style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)' }}>{message}</p>
+  </div>;
+}
+
+export function BadgeStatesExample() {
+  const [showZero, setShowZero] = useState(false);
+  const [online, setOnline] = useState(true);
+  return <div style={{ display: 'grid', gap: 22, width: '100%' }}>
+    <div style={{ display: 'flex', gap: 28, alignItems: 'center', flexWrap: 'wrap', padding: '8px 0' }}>
+      <Badge count={0} showZero={showZero} tone="neutral"><CardButton>零条通知</CardButton></Badge>
+      <Badge count={128} overflowCount={9} size="sm"><CardButton>计数上限</CardButton></Badge>
+      <Badge dot={online} tone="success" offset={[-2, 2]} label={online ? '在线' : '离线'}><Avatar name="林" /></Badge>
+    </div>
+    <Checkbox label="显示零计数" checked={showZero} onCheckedChange={setShowZero} />
+    <Checkbox label="显示在线状态" checked={online} onCheckedChange={setOnline} />
+  </div>;
+}
+
+export function AlertStatesExample() {
+  const [phase, setPhase] = useState<'error' | 'loading' | 'success'>('error');
+  useEffect(() => { if (phase !== 'loading') return; const timer = setTimeout(() => setPhase('success'), 700); return () => clearTimeout(timer); }, [phase]);
+  return <div style={{ display: 'grid', gap: 12, width: '100%' }}>
+    <Alert tone={phase === 'success' ? 'success' : phase === 'error' ? 'danger' : 'info'}
+      title={phase === 'success' ? '同步已恢复' : phase === 'loading' ? '正在重新连接' : '暂时无法同步项目'}
+      description={phase === 'success' ? '所有修改已完成同步。' : '本地内容已经保存，可以稍后重试。'}
+      action={<CardButton disabled={phase === 'loading'} onClick={() => setPhase(phase === 'success' ? 'error' : 'loading')}>{phase === 'success' ? '再次模拟失败' : phase === 'loading' ? '连接中…' : '重试同步'}</CardButton>} />
+    <Alert tone="neutral" title="只在此设备上保存" description="这项偏好不会同步到其他工作空间。" icon={false} />
+  </div>;
+}
+
+export function PopconfirmStatesExample() {
+  const [open, setOpen] = useState(false);
+  const [fail, setFail] = useState(true);
+  const [result, setResult] = useState('第一次可模拟失败，再关闭失败开关进行重试。');
+  return <div style={{ display: 'grid', gap: 18, width: '100%' }}>
+    <Checkbox label="模拟提交失败" checked={fail} onCheckedChange={setFail} />
+    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+      <Popconfirm label="发布更新" title="发布这次更新？" description="更新会应用到当前项目。" confirmLabel="确认发布" open={open} onOpenChange={setOpen}
+        errorText="连接暂时不可用，请重试。" onConfirm={async () => {
+          await new Promise<void>(resolve => setTimeout(resolve, 700));
+          if (fail) throw new Error('模拟连接失败');
+          setResult('更新已发布。');
+        }} onConfirmError={() => setResult('发布失败，可重新尝试。')} onCancel={() => setResult('已取消发布。')} />
+      <Popconfirm label="没有发布权限" title="发布更新？" onConfirm={() => {}} disabled />
+    </div>
+    <p role="status" style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)' }}>{result}</p>
+  </div>;
+}
+
+export function DropdownStatesExample() {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState('尚未选择');
+  const items = Array.from({ length: 18 }, (_, index) => ({
+    id: `version-${index + 1}`,
+    label: `版本 ${String(index + 1).padStart(2, '0')}${index === 2 ? ' · 不可用' : ''}`,
+    disabled: index === 2,
+    hint: index === 2 ? '此版本正在归档。' : undefined,
+    onSelect: () => setSelected(`已选择版本 ${index + 1}`),
+  }));
+  return <div style={{ display: 'grid', gap: 16 }}>
+    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+      <Dropdown label="切换版本" items={items} open={open} onOpenChange={setOpen} />
+      <Dropdown label="向上展开" items={items} placement="top" align="end" />
+      <Dropdown label="没有可用操作" items={[]} />
+    </div>
+    <p role="status" style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)' }}>{open ? '菜单已展开' : '菜单已收起'} · {selected}</p>
+  </div>;
+}
 
 export function CardButtonStatesExample() {
   const [phase, setPhase] = useState<'idle' | 'saving' | 'saved'>('idle');

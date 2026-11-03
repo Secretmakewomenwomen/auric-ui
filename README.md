@@ -6,7 +6,7 @@
 
 AuricUI brings forms, messages, tool calls, project management, and media editing into a shared visual system. Built around a dark theme with light mode support, it helps you create AI assistants, agent workspaces, and content creation tools.
 
-![AuricUI documentation preview: dark theme, component navigation, and quick start](./docs/images/image1.png)
+![AuricUI documentation in English: interactive component showcase, language switch, and quick start](./docs/images/image1.png)
 
 [Documentation & demos](https://coderclouds.com:8443/#/start) · [Quick start](#quick-start) · [Package entry points](#package-entry-points) · [Run the documentation](#run-the-documentation) · [Contributing](./CONTRIBUTING.md)
 
@@ -221,6 +221,19 @@ Build outputs in `dist/`, `artifacts/`, and other generated directories are crea
 ## Deployment and releases
 
 The documentation site is built into `dist/`. Use the repository's [Dockerfile](./Dockerfile) to create a static site image.
+
+For the Mac publishing script, copy the [configuration template](./.env.publish.example) to `.env.publish.local` once. Set `DOCS_IMAGE` to your image repository without a tag and select your configured Docker builder:
+
+```bash
+cp .env.publish.example .env.publish.local
+# Edit .env.publish.local and set the actual DOCS_IMAGE
+bash scripts/publish-mac.sh --check       # Check local configuration, Docker, and the builder
+bash scripts/publish-mac.sh               # Build and publish the documentation image
+# To also increment and publish the library and Skill versions:
+bash scripts/publish-mac.sh --release all
+```
+
+The local configuration is ignored by Git and loaded automatically; environment variables override its values, so a new terminal does not require another `export`. `--check` does not build, increment versions, push, or verify remote publishing permissions. Configure npm / registry authentication and builder certificate trust before publishing. If npm publication succeeds but the image step fails, retry without `--release`. Updating the server still requires pulling the image and recreating its container.
 
 <details>
 <summary>Maintainers: publish npm packages</summary>

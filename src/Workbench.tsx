@@ -1,5 +1,7 @@
+import { useDocsLocale, localizeView, LanguageSwitch } from './docs/locale';
 import { libraryDistribution as library } from './docs/distribution';
-import { useEffect, useRef, useState } from "react";
+import './styles/playground.css';
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Boxes,
   Search,
@@ -23,8 +25,10 @@ import {
 } from "lucide-react";
 import { entries, categories, type ComponentConfig } from "./registry";
 import { Preferences } from "./demos";
-import { Preview } from "./docs/Preview";
 import { getDoc } from "./docs/catalog";
+import { PlaygroundPreview, PlaygroundCode } from './docs/playground/PlaygroundPreview';
+import { PlaygroundForm } from './docs/playground/PlaygroundForm';
+import { createPlaygroundSession, playgroundCode, type PropOverrides } from './docs/playground/model';
 import { QuickStart } from "./QuickStart";
 import { StudioShowcase } from "./StudioShowcase";
 import { CardButton } from "./components/Card";
@@ -40,12 +44,14 @@ type Workspace = {
   components: Record<string, ComponentConfig>;
   favorites: string[];
   tokens: Record<string, string>;
+  playground: Record<string, PropOverrides>;
 };
 const defaults: Workspace = {
   theme: "dark",
   components: {},
   favorites: ["button", "input", "dialog"],
   tokens: {},
+  playground: {},
 };
 function read(): Workspace {
   try {
@@ -70,6 +76,7 @@ function download(name: string, content: string) {
   setTimeout(() => URL.revokeObjectURL(u), 1000);
 }
 export function Workbench() {
+  const { t, locale } = useDocsLocale();
   const [state, setState] = useState<Workspace>(read),
     [page, setPage] = useState("快速开始"),
     [category, setCategory] = useState("全部组件"),
@@ -83,6 +90,16 @@ export function Workbench() {
   const searchRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
   const item = entries.find((x) => x.id === selected)!;
+  // Refresh the schema after documentation regeneration while retaining current overrides.
+  const sessions = useMemo(() => Object.fromEntries(entries.map(entry => {
+    const doc = getDoc(entry);
+    return [entry.id, createPlaygroundSession(`${doc.entry}:${doc.symbol}`, doc.api?.props ?? [], state.playground?.[entry.id] ?? {}, values => {
+      setState(current => ({ ...current, playground: { ...current.playground, [entry.id]: values } }));
+      setDirty(true);
+    })];
+  })), [getDoc]);
+  const session = sessions[selected];
+  const selectedDoc = getDoc(item, locale);
   const update = (data: Partial<Workspace>) => {
     setState((s) => ({ ...s, ...data }));
     setDirty(true);
@@ -138,7 +155,7 @@ export function Workbench() {
     setQuery("");
   };
   const isLibrary = page === "组件库" || page === "我的收藏";
-  return (
+  return localizeView((
     <div className="studio-app">
       <aside className="sidebar">
         <div className="brand">
@@ -152,7 +169,7 @@ export function Workbench() {
           <span>A</span>
           <div>
             <b>我的设计空间</b>
-            <small>AuricUI Design System</small>
+            <small>Design system</small>
           </div>
           <ChevronRight size={12} />
         </div>
@@ -236,6 +253,7 @@ export function Workbench() {
             <b>{page}</b>
           </div>
           <div className="top-actions">
+            <LanguageSwitch />
             <span className="save-status">
               <i />
               {dirty ? "有未保存更改" : "已保存到本地"}
@@ -361,14 +379,9 @@ export function Workbench() {
                     >
                       <div className="component-preview">
                         {code ? (
-                          <pre className="code-preview">
-                            {getDoc(entry).code}
-                          </pre>
+                          <PlaygroundCode entry={entry} session={sessions[entry.id]} className="code-preview" />
                         ) : (
-                          <Preview
-                            entry={entry}
-                            notify={toast.show}
-                          />
+                          <PlaygroundPreview entry={entry} session={sessions[entry.id]} />
                         )}
                       </div>
                       <div className="component-info">
@@ -380,7 +393,7 @@ export function Workbench() {
                           }}
                         >
                           <b>{entry.name}</b>
-                          <span>{entry.english}</span>
+                          {locale === 'zh-CN' && <span>{entry.english}</span>}
                         </button>
                         <button
                           className={`star-btn ${
@@ -541,7 +554,7 @@ export function Workbench() {
                   </div>
                   <h2>
                     {item.name}
-                    <span>{item.english}</span>
+                    {locale === 'zh-CN' && <span>{item.english}</span>}
                   </h2>
                   <p>{item.description}</p>
                   <span className="badge">
@@ -551,9 +564,10 @@ export function Workbench() {
                 </div>
                 <section className="config-section">
                   <h3>示例与 API</h3>
-                  <p className="muted">直接操作预览中的控件。此处与文档页面使用相同的组件示例和代码。</p>
+                  <p className="muted">通过下方表单调试参数，也可以直接操作左侧预览。</p>
                   <a href={`#/components/${item.id}`}>打开完整组件文档</a>
                 </section>
+                <PlaygroundForm key={selected} session={session} supported={!!selectedDoc.playground?.targets[selectedDoc.symbol]?.length && !!selectedDoc.api} />
                 <section className="config-section">
                   <h3>
                     设计规范<span className="subtle">AuricUI</span>
@@ -593,7 +607,7 @@ export function Workbench() {
                       aria-label="复制代码"
                       onClick={() =>
                         navigator.clipboard
-                          .writeText(getDoc(item).code ?? '')
+                          .writeText(playgroundCode(selectedDoc.code ?? '', selectedDoc.symbol, selectedDoc.playground, session.getSnapshot().overrides, selectedDoc.api?.props))
                           .then(() => toast.show("代码已复制"))
                           .catch(() => toast.showError("剪贴板不可用"))
                       }
@@ -601,7 +615,7 @@ export function Workbench() {
                       <Copy size={13} />
                     </button>
                   </h3>
-                  <pre className="inspector-code">{getDoc(item).code ?? ''}</pre>
+                  <PlaygroundCode entry={item} session={session} className="inspector-code" />
                 </section>
                 <section className="config-section">
                   <h3>源码参考</h3>
@@ -625,5 +639,5 @@ export function Workbench() {
         </Modal>
       )}
     </div>
-  );
+  ), t);
 }

@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowUpRight, Globe } from 'lucide-react';
@@ -14,6 +15,7 @@ export interface CitationProps {
 
 /** Source summary in a viewport-aware portal. Escape or an outside interaction dismisses it. */
 export function Citation({ index, title, href, description, source, className }: CitationProps) {
+  const uiText = useUiText();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -50,9 +52,9 @@ export function Citation({ index, title, href, description, source, className }:
   return <span className={classes('auricui-citation', className)} onKeyDown={event => {
     if (event.key === 'Escape' && open) { event.preventDefault(); event.stopPropagation(); setOpen(false); trigger.current?.focus(); }
   }}>
-    <button type="button" ref={trigger} className="auricui-citation-trigger" aria-label={`来源 ${index}：${title}`} aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)}>{index}</button>
+    <button type="button" ref={trigger} className="auricui-citation-trigger" aria-label={uiText("来源 ${0}：${1}", index, title)} aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)}>{index}</button>
     {mounted && createPortal(<span ref={panel} id={id} className="auricui-citation-card" style={position} data-open={open} inert={!open || undefined} aria-hidden={!open || undefined}>
-      <span className="auricui-citation-source"><Globe size={12} aria-hidden="true"/>{source ?? (url ? new URL(url).hostname : '参考资料')}</span>
+      <span className="auricui-citation-source"><Globe size={12} aria-hidden="true"/>{source ?? (url ? new URL(url).hostname : uiText("参考资料"))}</span>
       {url ? <a href={url} target="_blank" rel="noopener noreferrer">{title}<ArrowUpRight size={13} aria-hidden="true"/></a> : <strong>{title}</strong>}
       {description && <span className="auricui-citation-description">{description}</span>}
     </span>, document.body)}

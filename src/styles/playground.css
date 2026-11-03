@@ -1,0 +1,78 @@
+.studio-app .inspector { width: 320px; }
+.playground-form { animation: playground-enter 160ms cubic-bezier(.2,.8,.2,1) both; }
+.playground-form h3 > span { display: flex; align-items: center; gap: 8px; }
+.playground-count { color: var(--text-faint); font-size: 10px; font-weight: 400; }
+.playground-intro { margin: -3px 0 14px; color: var(--text-faint); font-size: 10.5px; line-height: 1.7; }
+.playground-search { display: flex; align-items: center; gap: 7px; padding: 0 9px; margin-bottom: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--dock-shell); color: var(--text-faint); transition: border-color 160ms; }
+.playground-search:focus-within { border-color: var(--border-strong); }
+.playground-search input { width: 100%; min-width: 0; height: 30px; border: 0; outline: 0; background: transparent; color: var(--text); font-size: 11px; }
+.playground-field { padding: 13px 0; border-bottom: 1px solid var(--border); }
+.playground-field:last-child { border-bottom: 0; }
+.playground-field-heading { display: flex; align-items: center; gap: 5px; min-height: 22px; }
+.playground-field-heading > label { min-width: 0; margin-right: auto; font-size: 11px; color: var(--text); overflow-wrap: anywhere; }
+.playground-field-heading code { font-family: var(--font-mono); font-size: 10.5px; }
+.playground-field[data-modified] .playground-field-heading > label::before { content: ''; display: inline-block; width: 4px; height: 4px; margin: 0 6px 2px 0; border-radius: 50%; background: var(--text-muted); }
+.playground-required { margin-left: 4px; color: var(--text-faint); }
+.playground-field-heading > [role=switch] { scale: .8; transform-origin: right center; }
+.playground-reset-field { width: 22px; height: 22px; color: var(--text-faint); }
+.playground-control { margin-top: 6px; }
+.playground-control > input, .playground-control textarea { display: block; width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; background: var(--dock-shell); color: var(--text); font-size: 11px; line-height: 1.5; outline: none; transition: border-color 160ms, background 160ms, box-shadow 160ms; }
+.playground-control > input { height: 32px; }
+.playground-control textarea { min-height: 92px; max-height: 280px; resize: vertical; font-family: var(--font-mono); font-size: 10px; tab-size: 2; }
+.playground-control :is(input, textarea):focus-visible { border-color: var(--border-strong); box-shadow: 0 0 0 2px var(--fill-tsp); }
+.playground-control [aria-invalid=true] { border-color: var(--err); }
+.playground-control .playground-select { width: 100%; height: 32px; justify-content: space-between; background: var(--dock-shell); font-size: 11px; }
+.playground-help { display: block; margin-top: 5px; color: var(--text-faint); font-size: 10px; line-height: 1.65; overflow-wrap: anywhere; }
+.playground-value { display: block; font-size: 10.5px; line-height: 1.6; color: var(--text-muted); }
+.playground-node-actions { display: flex; gap: 5px; margin-top: 7px; }
+.playground-node-actions button, .playground-error button { border: 1px solid var(--border); border-radius: 6px; padding: 3px 7px; background: transparent; font-size: 10px; color: var(--text-muted); transition: background 160ms, border-color 160ms; }
+.playground-node-actions button:hover, .playground-node-actions [aria-pressed=true], .playground-error button:hover { background: var(--bg-hover); border-color: var(--border-strong); }
+.playground-validation { display: block; margin-top: 6px; color: var(--err); font-size: 10px; line-height: 1.6; }
+.playground-details { border-top: 1px solid var(--border); padding-top: 11px; margin-top: 5px; }
+.playground-details > summary { display: flex; align-items: center; gap: 6px; padding-bottom: 8px; color: var(--text-muted); font-size: 11px; cursor: pointer; list-style: none; }
+.playground-details > summary::-webkit-details-marker { display: none; }
+.playground-details > summary svg { transform: rotate(-90deg); transition: transform 160ms; }
+.playground-details[open] > summary svg { transform: rotate(0deg); }
+.playground-details > summary span { margin-left: auto; font-size: 10px; color: var(--text-faint); }
+.playground-details[open] > :not(summary) { animation: playground-enter 160ms cubic-bezier(.2,.8,.2,1) both; }
+.playground-readonly { padding: 10px 0; }
+.playground-readonly > code { font-family: var(--font-mono); font-size: 10.5px; }
+.playground-readonly > small { display: block; margin-top: 5px; color: var(--text-faint); font-family: var(--font-mono); font-size: 9px; overflow-wrap: anywhere; }
+.playground-error { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px; text-align: center; font-size: 11px; color: var(--text-muted); }
+@keyframes playground-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1080px) and (min-width: 851px) { .studio-app .inspector { width: 290px; } }
+@media (prefers-reduced-motion: reduce) { .playground-form, .playground-details[open] > :not(summary) { animation: none; } .playground-form *, .playground-form *::before { transition-duration: 0ms !important; } }
+
+/* Match documentation reading sizes in the workbench and its parameter inspector. */
+.studio-app { font:400 14px/22px var(--docs-font-family); letter-spacing:0; -webkit-font-smoothing:auto; }
+.studio-app .component-preview { font:400 14px/1.75 var(--font-sans); -webkit-font-smoothing:antialiased; }
+.studio-app .sidebar nav button { font-size:14px; line-height:22px; }
+.studio-app .sidebar nav button.active { font-weight:500; }
+.studio-app :is(.nav-label, .sidebar nav button span, .workspace small, .save-status, .page-footer, .brand small) { font-size:12px; color:var(--docs-secondary); }
+.studio-app :is(.workspace b, .breadcrumbs, .overview-strip, .collection-heading, .component-title span) { font-size:13px; }
+.studio-app :is(.page-heading > p, .preview-tabs button, .search input, .component-title b, .inspector-header > span) { font-size:14px; }
+.studio-app .component-title b { font-weight:600; }
+.studio-app .inspector { width:340px; }
+.studio-app .inspector-title h2 { font-size:20px; line-height:28px; font-weight:600; }
+.studio-app :is(.inspector-title h2 span, .badge, .inspector-bottom, .config-section p.subtle) { font-size:12px; line-height:20px; color:var(--docs-secondary); }
+.studio-app .inspector-title p, .studio-app .config-section > p { font-size:14px; line-height:24px; color:var(--docs-copy); }
+.studio-app .config-section h3 { font-size:14px; line-height:22px; font-weight:600; }
+.studio-app :is(.config-section > a, .config-section dl > div, .config-section dd) { font-size:13px; color:var(--docs-copy); }
+.studio-app :is(.inspector-code, .code-preview) { font-size:13px; line-height:22px; color:var(--docs-copy); }
+.studio-app .source-path { font-size:12px; overflow-wrap:anywhere; }
+.studio-app :is(.playground-count, .playground-required) { font-size:12px; color:var(--docs-secondary); }
+.studio-app .playground-intro { font-size:13px; line-height:22px; color:var(--docs-copy); }
+.studio-app .playground-field-heading code { font-size:13px; font-weight:500; }
+.studio-app .playground-field-heading > [role=switch] { scale:.9; }
+.studio-app :is(.playground-search input, .playground-control > input, .playground-control .playground-select) { font-size:14px; height:36px; }
+.studio-app .playground-control textarea { font-size:13px; line-height:22px; }
+.studio-app :is(.playground-help, .playground-value, .playground-details > summary, .playground-readonly > code, .playground-error) { font-size:13px; line-height:22px; color:var(--docs-copy); }
+.studio-app :is(.playground-node-actions button, .playground-error button, .playground-validation, .playground-readonly > small, .playground-details > summary span) { font-size:12px; line-height:20px; }
+@media (max-width:1080px) and (min-width:851px) { .studio-app .inspector { width:300px; } }
+@media (max-width:850px) { .studio-app .sidebar nav button { font-size:0; } }
+.studio-app .sidebar nav button { min-height:38px; height:38px; text-align:left; white-space:nowrap; }
+.studio-app .sidebar nav button > svg { flex-shrink:0; }
+.studio-app .sidebar nav button > span { flex-shrink:0; min-width:18px; text-align:right; font-variant-numeric:tabular-nums; }
+.studio-app .component-title { min-width:0; }
+.studio-app .component-title > b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+@media(max-width:680px) { .studio-app .top-actions { gap:5px; } .studio-app .top-actions > .docs-language-switch > svg { display:none; } .studio-app .top-actions > .docs-language-switch { font-size:12px; padding:0 5px; } }

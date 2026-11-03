@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import { useId, useState } from 'react';
 import { classes } from './shared';
 export interface PromptVariable { name:string; label:string; placeholder?:string; required?:boolean; }
@@ -14,7 +15,10 @@ export interface PromptTemplateProps {
 export function resolvePromptTemplate(template:string,values:Record<string,string>) {
   return template.replace(/\{\{\s*([\w-]+)\s*\}\}/g,(match,key)=>values[key]??match);
 }
-export function PromptTemplate({template,variables,values,onValuesChange,onSubmit,submitLabel='使用提示词',disabled,className}:PromptTemplateProps) {
+export function PromptTemplate({template,variables,values,onValuesChange,onSubmit,submitLabel,disabled,className}:PromptTemplateProps) {
+  const uiText = useUiText();
+  if (submitLabel === undefined) submitLabel = uiText("使用提示词");
+
   const id=useId();
   const [attempted,setAttempted]=useState(false);
   const prompt=resolvePromptTemplate(template,values);
@@ -29,8 +33,8 @@ export function PromptTemplate({template,variables,values,onValuesChange,onSubmi
     {variables.map(variable=>{
       const invalid=attempted&&variable.required&&!values[variable.name]?.trim();
       const fieldId=`${id}-${variable.name}`;
-      return <label key={variable.name} htmlFor={fieldId}>{variable.label}{variable.required&&<span aria-hidden="true"> *</span>}<input id={fieldId} value={values[variable.name]??''} required={variable.required} disabled={disabled} aria-invalid={invalid||undefined} aria-describedby={invalid?`${fieldId}-error`:undefined} placeholder={variable.placeholder} onChange={event=>onValuesChange({...values,[variable.name]:event.target.value})}/>{invalid&&<span id={`${fieldId}-error`} role="alert" className="auricui-agent-error">请填写{variable.label}</span>}</label>;
+      return <label key={variable.name} htmlFor={fieldId}>{variable.label}{variable.required&&<span aria-hidden="true"> *</span>}<input id={fieldId} value={values[variable.name]??''} required={variable.required} disabled={disabled} aria-invalid={invalid||undefined} aria-describedby={invalid?`${fieldId}-error`:undefined} placeholder={variable.placeholder} onChange={event=>onValuesChange({...values,[variable.name]:event.target.value})}/>{invalid&&<span id={`${fieldId}-error`} role="alert" className="auricui-agent-error">{uiText("请填写")}{variable.label}</span>}</label>;
     })}
-    <pre aria-label="提示词预览">{prompt}</pre><button type="submit" className="auricui-agent-primary" disabled={disabled}>{submitLabel}</button>
+    <pre aria-label={uiText("提示词预览")}>{prompt}</pre><button type="submit" className="auricui-agent-primary" disabled={disabled}>{submitLabel}</button>
   </form>;
 }

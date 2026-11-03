@@ -1,6 +1,6 @@
 {
   "name": "auricui-skill",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "Install the AuricUI component-library skill for coding agents",
   "type": "module",
   "author": {

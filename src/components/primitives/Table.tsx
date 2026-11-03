@@ -1,3 +1,4 @@
+import { useUiText } from '../../i18n/ui';
 import { useMemo, type CSSProperties, type Key, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { classes, useControllable } from '../../agent/shared';
@@ -65,7 +66,11 @@ export interface TableProps<T> {
   className?: string;
 }
 
-export function Table<T>({label,columns,rows,rowKey,caption,sort,defaultSort=null,onSortChange,selection,loading=false,loadingText='正在加载…',emptyContent='暂无数据',density='comfortable',stickyHeader=false,maxHeight,minWidth,className}:TableProps<T>) {
+export function Table<T>({label,columns,rows,rowKey,caption,sort,defaultSort=null,onSortChange,selection,loading=false,loadingText,emptyContent,density='comfortable',stickyHeader=false,maxHeight,minWidth,className}:TableProps<T>) {
+  const uiText = useUiText();
+  if (loadingText === undefined) loadingText = uiText("正在加载…");
+  if (emptyContent === undefined) emptyContent = uiText("暂无数据");
+
   const [order,setOrder]=useControllable<TableSort|null>(sort,defaultSort,onSortChange);
   const displayed=useMemo(()=>{
     const compare=columns.find(column=>column.key===order?.key)?.compare;
@@ -82,11 +87,11 @@ export function Table<T>({label,columns,rows,rowKey,caption,sort,defaultSort=nul
   };
   const span=Math.max(1,columns.length+(selection?1:0));
   return <div className={classes('auricui-table',className)} data-density={density}>
-    <div className="auricui-table-scroll" style={{maxHeight}} role="region" aria-label={`${label}滚动区域`} tabIndex={0}>
+    <div className="auricui-table-scroll" style={{maxHeight}} role="region" aria-label={uiText("${0}滚动区域", label)} tabIndex={0}>
       <table aria-label={label} aria-busy={loading||undefined} style={{minWidth}}>
         {caption&&<caption>{caption}</caption>}
         <thead data-sticky={stickyHeader}><tr>
-          {selection&&<th scope="col" className="auricui-table-select"><Checkbox label={<span className="auricui-table-sr">选择当前数据中的全部可选行</span>} checked={eligible.length>0&&count===eligible.length} indeterminate={count>0&&count<eligible.length} disabled={loading||eligible.length===0} onCheckedChange={changeAll}/></th>}
+          {selection&&<th scope="col" className="auricui-table-select"><Checkbox label={<span className="auricui-table-sr">{uiText("选择当前数据中的全部可选行")}</span>} checked={eligible.length>0&&count===eligible.length} indeterminate={count>0&&count<eligible.length} disabled={loading||eligible.length===0} onCheckedChange={changeAll}/></th>}
           {columns.map(column=><th key={column.key} scope="col" style={{width:column.width,textAlign:column.align}} aria-sort={column.compare?(order?.key===column.key?(order.direction==='asc'?'ascending':'descending'):'none'):undefined}>
             {column.compare?<button type="button" className="auricui-table-sort" disabled={loading} onClick={()=>setOrder(order?.key!==column.key?{key:column.key,direction:'asc'}:order.direction==='asc'?{key:column.key,direction:'desc'}:null)}>
               {column.title}{order?.key!==column.key?<ArrowUpDown size={13} aria-hidden="true"/>:order.direction==='asc'?<ArrowUp size={13} aria-hidden="true"/>:<ArrowDown size={13} aria-hidden="true"/>}
@@ -102,6 +107,6 @@ export function Table<T>({label,columns,rows,rowKey,caption,sort,defaultSort=nul
         })}</tbody>
       </table>
     </div>
-    <span className="auricui-table-sr" role="status">{loading?loadingText:!rows.length?'暂无数据':`${rows.length} 行数据`}</span>
+    <span className="auricui-table-sr" role="status">{loading?loadingText:!rows.length?uiText("暂无数据"):uiText("${0} 行数据", rows.length)}</span>
   </div>;
 }

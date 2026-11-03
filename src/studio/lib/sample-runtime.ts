@@ -1,10 +1,14 @@
+import { createSampleText } from './sample-i18n';
 import assets from './sample-assets.json';
 import seed from './sample-film.html?raw';
 import { createDemoBackend } from './sample-backend';
 import { createDemoHost } from './sample-host';
 
 /** Browser-only, self-contained in-memory Studio demonstration. Call dispose on unmount. */
-export function createStudioDemo(onOpen:(id:string)=>void=()=>{},onMessage:(text:string)=>void=()=>{}) {
+export function createStudioDemo(onOpen:(id:string)=>void=()=>{},onMessage:(text:string)=>void=()=>{}, options: { locale?: 'en' | 'zh-CN' } = {}) {
+  const demoText = createSampleText(options.locale ?? 'zh-CN');
+
+  const locale = options.locale ?? 'zh-CN';
   const origin=window.location.origin;
   const urls=new Map<string,string>();
   const contents=assets as Record<string,string>;
@@ -37,8 +41,8 @@ export function createStudioDemo(onOpen:(id:string)=>void=()=>{},onMessage:(text
     const url=input instanceof Request?input.url:String(input);
     const resolved=resolveAssetUrl(url);
     if(resolved.startsWith('blob:'))return globalThis.fetch(resolved,init);
-    return Promise.resolve(new Response(JSON.stringify({error:'本地演示未提供此资源'}),{status:404,headers:{'content-type':'application/json'}}));
+    return Promise.resolve(new Response(JSON.stringify({error:demoText("本地演示未提供此资源")}),{status:404,headers:{'content-type':'application/json'}}));
   };
-  const backend=createDemoBackend(origin,{fetch:localFetch,film:seed});
-  return {ask:backend.ask,projectId:'demo-1',transport:{fetch:backend.fetch,subscribe:backend.subscribe,resolveAssetUrl},host:createDemoHost(onOpen,onMessage),dispose(){backend.dispose();for(const url of urls.values())URL.revokeObjectURL(url);urls.clear();}};
+  const backend=createDemoBackend(origin,{fetch:localFetch,film:seed},locale);
+  return {ask:backend.ask,projectId:'demo-1',transport:{fetch:backend.fetch,subscribe:backend.subscribe,resolveAssetUrl},host:createDemoHost(onOpen,onMessage,locale),dispose(){backend.dispose();for(const url of urls.values())URL.revokeObjectURL(url);urls.clear();}};
 }

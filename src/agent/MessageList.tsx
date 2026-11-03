@@ -1,9 +1,14 @@
+import { useUiText } from '../i18n/ui';
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { classes } from './shared';
 export interface MessageListProps { children:ReactNode; label?:string; follow?:boolean; className?:string; style?:CSSProperties; scrollLabel?:string; }
 /** Follows content only while the reader is at the bottom; streaming never steals their reading position. */
-export function MessageList({children,label='消息记录',follow=true,className,style,scrollLabel='回到最新消息'}:MessageListProps) {
+export function MessageList({children,label,follow=true,className,style,scrollLabel}:MessageListProps) {
+  const uiText = useUiText();
+  if (label === undefined) label = uiText("消息记录");
+  if (scrollLabel === undefined) scrollLabel = uiText("回到最新消息");
+
   const viewport=useRef<HTMLDivElement>(null);
   const content=useRef<HTMLDivElement>(null);
   const pinned=useRef(true);

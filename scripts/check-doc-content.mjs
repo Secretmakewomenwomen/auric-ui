@@ -29,18 +29,24 @@ const { entries, getDoc, states } = await import(pathToFileURL(output));
 const previewSource = fs.readFileSync(path.join(root, 'src/docs/Preview.tsx'), 'utf8');
 assert.ok(!/\bDemo\b|advanced-demos|from ['"]\.\.\/demos/.test(previewSource), 'Preview must not fall back to legacy mock demos');
 const workbenchSource = fs.readFileSync(path.join(root, 'src/Workbench.tsx'), 'utf8');
-assert.ok(workbenchSource.includes('<Preview') && !/<Demo\b|\bsnippet\(/.test(workbenchSource), 'Workbench must share documentation previews and code');
+assert.ok(workbenchSource.includes('<PlaygroundPreview') && workbenchSource.includes('<PlaygroundCode') && !/<Demo\b|\bsnippet\(/.test(workbenchSource), 'Workbench must use the generated documentation playground');
 const previewAst = ts.createSourceFile('Preview.tsx', previewSource, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+const printer = ts.createPrinter();
+const normalize = (fn, source) => printer.printNode(ts.EmitHint.Unspecified, fn, source).replace(/\bPlayground_(\w+)_\d+\b/g, '$1').replace(/\s+/g, '');
 const liveExamples = new Map();
 for (const declaration of previewAst.statements.filter(ts.isImportDeclaration)) {
   const specifier = declaration.moduleSpecifier.text;
   if (!specifier.startsWith('./examples/')) continue;
   const file = path.join(root, 'src/docs', `${specifier}.tsx`);
   const source = ts.createSourceFile(file, fs.readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const playgroundFile = path.join(root, 'src/docs/generated-playground', path.basename(file));
+  const playgroundSource = ts.createSourceFile(playgroundFile, fs.readFileSync(playgroundFile, 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
   for (const fn of source.statements.filter(ts.isFunctionDeclaration)) {
     if (fn.name?.text.endsWith('Example') && fn.modifiers?.some(m => m.kind === ts.SyntaxKind.ExportKeyword)) {
       assert.ok(!liveExamples.has(fn.name.text), `Duplicate example: ${fn.name.text}`);
       liveExamples.set(fn.name.text, { fn, source });
+      const compiled = playgroundSource.statements.find(node => ts.isFunctionDeclaration(node) && node.name?.text === fn.name.text);
+      assert.ok(compiled && normalize(fn, source) === normalize(compiled, playgroundSource), `${fn.name.text}: playground must retain the original example and callbacks`);
     }
   }
 }

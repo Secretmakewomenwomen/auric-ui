@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { classes } from './shared';
 
@@ -13,7 +14,8 @@ export interface MessageBubbleProps extends Omit<HTMLAttributes<HTMLElement>, 'r
 
 /** A message's presentation only. The application owns conversation state and content rendering. */
 export function MessageBubble({ role = 'assistant', author, avatar, meta, actions, children, className, ...props }: MessageBubbleProps) {
-  const name = author ?? { user: '你', assistant: '助手', system: '系统' }[role];
+  const uiText = useUiText();
+  const name = author ?? { user: uiText("你"), assistant: uiText("助手"), system: uiText("系统") }[role];
   return <article {...props} aria-label={props['aria-label'] ?? name} className={classes('auricui-message', className)} data-role={role}>
     {avatar && <div className="auricui-message-avatar" aria-hidden="true">{avatar}</div>}
     <div className="auricui-message-main">

@@ -2,7 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 import { commonHelp, componentHelp, inheritedProps, defaultOverrides } from './docs-metadata.mjs';
+import { propControl, generatePlaygrounds } from './playground-generation.mjs';
+import { generateEnglishExamples } from './docs-localization.mjs';
 const root=path.resolve(import.meta.dirname,'..');
+generateEnglishExamples(root);
 const config=ts.readConfigFile(path.join(root,'tsconfig.json'),ts.sys.readFile);
 const parsed=ts.parseJsonConfigFileContent(config.config,ts.sys,root);
 const program=ts.createProgram(parsed.fileNames,parsed.options);
@@ -16,9 +19,15 @@ function parameterDefaults(declaration) {
   }
   const name=fn?.parameters?.[0]?.name;
   if(!name||!ts.isObjectBindingPattern(name))return {};
-  return Object.fromEntries(name.elements.filter(element=>element.initializer).map(element=>[
+  const defaults=Object.fromEntries(name.elements.filter(element=>element.initializer).map(element=>[
     (element.propertyName??element.name).getText(),element.initializer.getText(),
   ]));
+  for(const statement of fn.body?.statements??[]) {
+    if(!ts.isIfStatement(statement)||!ts.isExpressionStatement(statement.thenStatement))continue;
+    const assignment=statement.thenStatement.expression;
+    if(ts.isBinaryExpression(assignment)&&ts.isIdentifier(assignment.left)&&ts.isCallExpression(assignment.right)&&assignment.right.expression.getText()==='uiText')defaults[assignment.left.text]='当前语言文案';
+  }
+  return defaults;
 }
 function propTypeText(type,declaration) {
   const literalUnion=type.isUnion()&&type.types.every(item=>item.flags&(ts.TypeFlags.StringLiteral|ts.TypeFlags.NumberLiteral|ts.TypeFlags.BooleanLiteral|ts.TypeFlags.Undefined|ts.TypeFlags.Null));
@@ -51,13 +60,15 @@ for(const [entry,file] of Object.entries({'auricui':'index','auricui/chat':'chat
       inherited:!local(prop),
       defaultValue:defaults[prop.name]??null,
       description:componentHelp[exported.name]?.[prop.name]||(!local(prop)?commonHelp[prop.name]:null)||ts.displayPartsToString(prop.getDocumentationComment(checker))||commonHelp[prop.name]||'',
+      control:propControl(checker.getTypeOfSymbolAtLocation(prop,decl),checker,prop.name,defaults[prop.name]),
     })).sort((a,b)=>Number(a.inherited)-Number(b.inherited)||(a.inherited?(inheritedProps[exported.name]?.indexOf(a.name)??0)-(inheritedProps[exported.name]?.indexOf(b.name)??0):0));
     api[`${entry}:${exported.name}`]={props,source:path.relative(root,decl.getSourceFile().fileName),description:ts.displayPartsToString(symbol.getDocumentationComment(checker))};
   }
 }
+function collectExamples(directory) {
 const examples={};
-for(const filename of fs.readdirSync(path.join(root,'src/docs/examples')).filter(n=>n.endsWith('.tsx'))) {
-  const file=path.join(root,'src/docs/examples',filename);const raw=fs.readFileSync(file,'utf8');
+for(const filename of fs.readdirSync(path.join(root,directory)).filter(n=>n.endsWith('.tsx'))) {
+  const file=path.join(root,directory,filename);const raw=fs.readFileSync(file,'utf8');
   const ast=ts.createSourceFile(file,raw,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
   for(const node of ast.statements.filter(ts.isFunctionDeclaration)) {
     if(!node.name?.text.endsWith('Example'))continue;
@@ -75,5 +86,11 @@ for(const filename of fs.readdirSync(path.join(root,'src/docs/examples')).filter
     examples[name]=[...imports,"import 'auricui/styles.css';",'',node.getText(ast).replace(`export function ${node.name.text}`, 'export default function Example')].join('\n');
   }
 }
-fs.writeFileSync(path.join(root,'src/docs/generated.json'),JSON.stringify({api,examples},null,2)+'\n');
+return examples;
+}
+const examples=collectExamples('src/docs/examples');
+const playgrounds=generatePlaygrounds(root,examples);
+const englishExamples=collectExamples('src/docs/generated-examples-en');
+const englishPlaygrounds=generatePlaygrounds(root,englishExamples,'src/docs/generated-examples-en','src/docs/generated-playground-en');
+fs.writeFileSync(path.join(root,'src/docs/generated.json'),JSON.stringify({api,examples,playgrounds,locales:{en:{examples:englishExamples,playgrounds:englishPlaygrounds}}},null,2)+'\n');
 console.log(`Generated ${Object.keys(api).length} public API records and ${Object.keys(examples).length} executable examples.`);

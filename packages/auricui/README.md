@@ -6,7 +6,7 @@
 
 React 19 的深色组件与交互系统。仅提供 ESM（`.mjs`），包含 TypeScript 声明和编译好的 CSS，不提供 CJS。
 
-版本号以随包的 `package.json` 为准。包含 30 个 Agent / Personal Agent 组件和 13 个基础组件。文档提供可复制示例、常见状态、属性默认值与主题配置。
+版本号以随包的 `package.json` 为准。包含 30 个 Agent / Personal Agent 组件及按钮、表单、浮层、反馈等基础组件。文档提供可复制示例、常见状态、属性默认值与主题配置。
 
 ## 使用
 
@@ -35,7 +35,7 @@ export function App() {
 
 | 路径 | 内容 |
 | --- | --- |
-| `auricui` | 按钮、卡片、Drawer、Checkbox、RadioGroup、Tree、Combobox、Tabs、Pagination、Textarea、Progress、Skeleton、Avatar、Breadcrumb、EmptyState、设置与 Provider |
+| `auricui` | 按钮、卡片、Tag、Badge、Alert、Dropdown、Popconfirm、Table、Drawer、Checkbox、RadioGroup、Tree、Combobox、Tabs、Pagination、Textarea、Progress、Skeleton、Avatar、Breadcrumb、EmptyState、设置与 Provider |
 | `auricui/agent` | MessageBubble、MessageList、ToolCall、ApprovalCard、MemoryCard、BriefingCard 等 30 个无服务耦合组件 |
 | `auricui/chat` | Lexical 输入、Markdown、附件、问答、完整对话、模型选择、技能弹窗、日志，以及服务接口 |
 | `auricui/studio` | 原专业场景组件：时间轴、舞台、字幕、素材、项目、完整设置和导出面板，以及服务接口 |
@@ -61,7 +61,7 @@ import './theme.css';
 
 Provider 的 theme 可受控切换 dark / light，不内置偏好持久化或 system 模式。Chat 自己声明颜色变量，因此自定义覆盖同时包含 Chat 选择器。Drawer / Citation 的 body Portal 使用根主题，不继承局部 wrapper。CardButton primary 使用 --text 作为背景、--panel 作为文字。
 
-新增动效采用 --auricui-motion-fast / normal / slow（140 / 220 / 320ms）和原生 CSS，遵循 prefers-reduced-motion。CodeBlock 默认无语法着色，可通过 renderLine 接入高亮器。
+动效采用原生 CSS，遵循 prefers-reduced-motion。Tag、Badge、Alert、Dropdown 和 Popconfirm 使用 OpenFilm 的 160ms pop 缓动，其余组件按场景使用 --auricui-motion-fast / normal / slow（140 / 220 / 320ms）。Tag / Alert 的 visible 可受控，退场完成时调用 onAfterClose；Popconfirm 支持 Promise 确认与失败重试。CodeBlock 默认无语法着色，可通过 renderLine 接入高亮器。
 
 ## 服务边界
 

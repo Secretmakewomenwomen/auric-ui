@@ -61,6 +61,9 @@ export const commonHelp = {
 const buttonProps = ['children', 'disabled', 'type', 'onClick', 'aria-label', 'aria-busy', 'className', 'style', 'ref'];
 const fieldProps = ['value', 'defaultValue', 'onChange', 'placeholder', 'disabled', 'readOnly', 'required', 'name', 'id', 'autoFocus', 'maxLength', 'onBlur', 'aria-label', 'aria-invalid', 'aria-describedby', 'className'];
 export const inheritedProps = {
+  Tag: ['className', 'style', 'title', 'id', 'aria-label', 'aria-describedby'],
+  Badge: ['className', 'style', 'title', 'id', 'aria-label'],
+  Alert: ['children', 'className', 'style', 'id', 'role', 'aria-label'],
   CardButton: buttonProps,
   SettingsButton: buttonProps,
   Suggestion: buttonProps,

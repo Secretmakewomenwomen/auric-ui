@@ -8,6 +8,7 @@ AuricUI 包含原创组件，以及从 OpenFilm 复制、整理和修改的 UI �
 | Inter 字体 | `@fontsource-variable/inter`，SIL Open Font License | [字体许可证](./packages/auricui/INTER-LICENSE) |
 | 服务商图标 | Simple Icons、Lobe Icons 及上游标注的厂商 favicon | [包内来源说明](./packages/auricui/THIRD-PARTY-NOTICES.md)、[Lobe Icons 许可证](./packages/auricui/LOBE-ICONS-LICENSE) |
 | React、React DOM、Lucide、Lexical、Yjs 等依赖 | 各依赖各自的许可证 | 版本由 `package-lock.json` 固定，许可证随依赖分发 |
+| 文档网页的动画编排 | GSAP、`@gsap/react`，[GSAP Standard License](https://gsap.com/standard-license/) | 仅用于文档应用；版本由 `package-lock.json` 固定，许可证随依赖分发 |
 
 AuricUI 的修改包括公开包入口、通用组件、主题与样式、服务适配、文档、演示和构建工具。上游来源代码的版权不因这些修改而改变。服务商名称与图标用于标识对应服务，不代表其对 AuricUI 的背书。
 

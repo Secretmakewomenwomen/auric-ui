@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#111111" />
     <meta
       name="description"
-      content="AuricUI 深色设计系统 · 可交互组件与主题配置工作台"
+      content="AuricUI design system · Interactive React components and theme playground"
     />
-    <title>AuricUI · 组件文档</title>
+    <title>AuricUI · Component documentation</title>
     <script>
       try {
         if (localStorage.getItem('auricui.docs.theme') === 'light') document.documentElement.dataset.theme = 'light';
+        if (localStorage.getItem('auricui.docs.locale') === 'zh-CN') document.documentElement.lang = 'zh-CN';
       } catch {}
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import { useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
@@ -10,6 +11,7 @@ export function Modal({
   onClose: () => void;
   children: ReactNode;
 }) {
+  const uiText = useUiText();
   const ref = useRef<HTMLDivElement>(null);
   const close = useRef(onClose);
   close.current = onClose;
@@ -63,7 +65,7 @@ export function Modal({
             <span className="eyebrow">WORKSPACE PREFERENCES</span>
             <h2>{title}</h2>
           </div>
-          <button className="icon-btn" onClick={onClose} aria-label="关闭弹窗">
+          <button className="icon-btn" onClick={onClose} aria-label={uiText("关闭弹窗")}>
             <X size={17} />
           </button>
         </header>

@@ -1,3 +1,4 @@
+import { useDocsLocale, localizeView } from './locale';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CodeBlockProps } from '../agent/CodeBlock';
 import { Check, Copy, ChevronDown } from 'lucide-react';
@@ -20,6 +21,7 @@ function highlight(code: string) {
 }
 
 export function CodeEditor({ code, ...props }: CodeBlockProps) {
+  const { t } = useDocsLocale();
   const [value, setValue] = useState(code);
   const [editing, setEditing] = useState(false);
   const pre = useRef<HTMLPreElement>(null);
@@ -27,7 +29,7 @@ export function CodeEditor({ code, ...props }: CodeBlockProps) {
   const highlighted = useMemo(() => highlight(value), [value]);
   const [closed, setClosed] = useState(props.defaultCollapsed ?? false);
   const [copied, setCopied] = useState(false);
-  return <div className="docs-code-editor auricui-code">
+  return localizeView(<div className="docs-code-editor auricui-code">
     <header className="auricui-code-header"><span>{props.filename ?? 'tsx'}</span><div>
       <small>{props.language ?? 'tsx'}</small>
       <button className="auricui-agent-button" type="button" aria-label="复制代码" title="复制代码" onClick={() => { void navigator.clipboard.writeText(value).then(() => { setCopied(true); window.setTimeout(() => setCopied(false), 2000); }).catch(error => props.onCopyError?.(error)); }}>{copied ? <Check size={14}/> : <Copy size={14}/>}</button>
@@ -39,5 +41,5 @@ export function CodeEditor({ code, ...props }: CodeBlockProps) {
     </div>}
     {editing && value !== code && <button type="button" className="docs-editor-reset" onClick={() => setValue(code)}>重置代码</button>}
     <span className="auricui-sr-only" role="status">{copied ? '已复制' : ''}</span>
-  </div>;
+  </div>, t);
 }

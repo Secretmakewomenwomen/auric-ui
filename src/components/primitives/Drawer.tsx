@@ -1,3 +1,4 @@
+import { useUiText } from '../../i18n/ui';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
@@ -7,6 +8,7 @@ const layers:HTMLElement[]=[];
 const inertBefore=new Map<HTMLElement,boolean>();
 let overflowBefore='';
 export function Drawer({open,onOpenChange,title,description,children,footer,side='right',size='md',closeOnOutsideClick=true,className}:DrawerProps) {
+  const uiText = useUiText();
   const [mounted,setMounted]=useState(false);
   useEffect(()=>setMounted(true),[]);
   const [present,setPresent]=useState(open),[shown,setShown]=useState(false);
@@ -39,5 +41,5 @@ export function Drawer({open,onOpenChange,title,description,children,footer,side
     return()=>{cancelAnimationFrame(frame);document.removeEventListener('keydown',key,true);const index=layers.indexOf(element);if(index>=0)layers.splice(index,1);if(!layers.length){for(const [el,was] of inertBefore)el.inert=was;inertBefore.clear();document.body.style.overflow=overflowBefore;}else layers.at(-1)!.inert=false;if(previous?.isConnected&&!previous.closest('[inert]'))previous.focus();};
   },[present,mounted]);
   if(!present||!mounted)return null;
-  return createPortal(<div ref={layer} className="auricui-drawer-layer" data-open={shown} onPointerDown={event=>{if(closeOnOutsideClick&&event.target===event.currentTarget&&layers.at(-1)===layer.current)close.current(false);}}><section ref={dialog} role="dialog" aria-modal="true" aria-labelledby={`${id}-title`} aria-describedby={description?`${id}-description`:undefined} tabIndex={-1} className={classes('auricui-drawer',className)} data-side={side} data-size={size}><header><div><h2 id={`${id}-title`}>{title}</h2>{description&&<p id={`${id}-description`}>{description}</p>}</div><button type="button" className="auricui-agent-button" aria-label="关闭抽屉" onClick={()=>onOpenChange(false)}><X size={17}/></button></header><div className="auricui-drawer-body">{children}</div>{footer&&<footer>{footer}</footer>}</section></div>,document.body);
+  return createPortal(<div ref={layer} className="auricui-drawer-layer" data-open={shown} onPointerDown={event=>{if(closeOnOutsideClick&&event.target===event.currentTarget&&layers.at(-1)===layer.current)close.current(false);}}><section ref={dialog} role="dialog" aria-modal="true" aria-labelledby={`${id}-title`} aria-describedby={description?`${id}-description`:undefined} tabIndex={-1} className={classes('auricui-drawer',className)} data-side={side} data-size={size}><header><div><h2 id={`${id}-title`}>{title}</h2>{description&&<p id={`${id}-description`}>{description}</p>}</div><button type="button" className="auricui-agent-button" aria-label={uiText("关闭抽屉")} onClick={()=>onOpenChange(false)}><X size={17}/></button></header><div className="auricui-drawer-body">{children}</div>{footer&&<footer>{footer}</footer>}</section></div>,document.body);
 }

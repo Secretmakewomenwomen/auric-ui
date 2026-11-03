@@ -1,0 +1,82 @@
+/* Page choreography follows the existing OpenFilm surfaces and easing. */
+.docs-hero { display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); align-items:center; gap:40px; padding:4px 0 12px; }
+.docs-hero-copy { min-width:0; }
+.docs-hero .docs-page-kicker { font-size:11px; letter-spacing:.12em; margin-bottom:22px; }
+.docs-hero h1 { font-size:clamp(32px,3.2vw,44px); font-weight:600; letter-spacing:-1.5px; line-height:1.17; margin:0 0 20px; }
+.docs-hero-line { display:block; overflow:hidden; padding-bottom:5px; margin-bottom:-5px; }
+.docs-hero-line > span { display:block; }
+.docs-hero .docs-lead { font-size:15px; line-height:1.85; max-width:410px; }
+.docs-hero-actions { display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-top:26px; }
+.docs-hero-actions a { display:inline-flex; align-items:center; justify-content:center; gap:8px; font-size:13px; font-weight:500; transition:background 160ms,color 160ms; }
+.docs-hero-actions .docs-hero-primary { min-height:36px; padding:0 13px; border-radius:6px; background:var(--text); color:var(--panel); }
+.docs-hero-actions .docs-hero-primary:hover { background:var(--text-muted); }
+.docs-hero-actions .docs-hero-secondary { color:var(--docs-copy); min-height:36px; }
+.docs-hero-actions .docs-hero-secondary:hover { color:var(--text); }
+.docs-hero-actions a:focus-visible,.docs-assembly-caption button:focus-visible { outline:2px solid var(--auricui-focus-color,var(--text)); outline-offset:4px; }
+.docs-hero-meta { display:flex; align-items:center; gap:10px; margin-top:24px; color:var(--docs-secondary); font-size:12px; }
+.docs-hero-meta i { width:2px; height:2px; background:var(--docs-secondary); border-radius:50%; }
+.docs-assembly { min-width:0; margin:0; }
+.docs-assembly-frame { background:var(--dock-shell); border:1px solid var(--border-strong); border-radius:12px; }
+.docs-assembly-bar { display:flex; align-items:center; gap:8px; min-height:42px; padding:0 16px; border-bottom:1px solid var(--border); font-size:12px; color:var(--docs-copy); }
+.docs-assembly-bar > span:first-child { display:flex; align-items:center; gap:8px; margin-right:auto; }
+.docs-assembly-live { font:10px var(--font-mono); letter-spacing:.07em; color:var(--docs-secondary); }
+.docs-assembly-stage { position:relative; padding:30px 28px; }
+.docs-assembly-measure { position:absolute; inset:16px; pointer-events:none; }
+.docs-assembly-measure span { position:absolute; width:6px; height:6px; border:solid var(--border-strong); }
+.docs-assembly-measure span:nth-child(1) { top:0; left:0; border-width:1px 0 0 1px; }
+.docs-assembly-measure span:nth-child(2) { top:0; right:0; border-width:1px 1px 0 0; }
+.docs-assembly-measure span:nth-child(3) { bottom:0; left:0; border-width:0 0 1px 1px; }
+.docs-assembly-measure span:nth-child(4) { bottom:0; right:0; border-width:0 1px 1px 0; }
+.docs-assembly-stage .docs-assembly-card { width:100%; padding:20px; background:var(--panel); box-shadow:0 12px 26px -20px #0008; transform-origin:center; }
+.docs-assembly-card h3 { font-size:14px; line-height:20px; }
+.docs-assembly-field { margin-top:20px; }
+.docs-assembly-field label,.docs-assembly-options > span { display:block; color:var(--docs-secondary); font-size:12px; margin-bottom:8px; }
+.docs-assembly-field input { width:100%; height:34px; font-size:13px; background:var(--dock-shell); }
+.docs-assembly-options { margin-top:16px; }
+.docs-assembly-tags { display:flex; align-items:center; gap:6px; flex-wrap:wrap; min-height:24px; }
+.docs-assembly-progress { margin-top:20px; }
+.docs-assembly-progress .auricui-progress-label { font-size:12px; margin-bottom:9px; color:var(--docs-secondary); }
+.docs-assembly-progress .auricui-progress-track { height:4px; }
+.docs-assembly-progress .auricui-progress-track > span { background:var(--text-muted); transition:none; }
+.docs-assembly-ready { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:20px; }
+.docs-assembly-status { display:flex; align-items:center; gap:6px; color:var(--docs-copy); font-size:12px; }
+.docs-assembly-status > svg { color:var(--ok); }
+.docs-assembly-caption { display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:40px; padding:9px 16px; border-top:1px solid var(--border); color:var(--docs-secondary); font-size:11px; }
+.docs-assembly-caption button { display:flex; align-items:center; gap:5px; border:0; padding:2px 0; background:none; color:var(--docs-copy); font-size:11px; white-space:nowrap; }
+.docs-assembly-caption button:hover { color:var(--text); }
+.docs-assembly-caption button:disabled { color:var(--docs-secondary); opacity:.6; }
+
+.docs-detail { animation:none; }
+.docs-overview-card[hidden] { display:none; }
+.docs-sidebar > nav { position:relative; }
+.docs-nav-indicator { position:absolute; left:0; top:0; width:2px; border-radius:2px; background:var(--text); opacity:0; pointer-events:none; z-index:1; }
+.docs-component-link[data-active=true] { border-left-color:transparent; }
+.docs-header { position:relative; }
+.docs-reading-line { position:absolute; bottom:-1px; left:var(--docs-sidebar); right:0; height:1px; overflow:hidden; pointer-events:none; }
+.docs-reading-line > span { display:block; width:100%; height:100%; background:var(--text-muted); transform:scaleX(0); transform-origin:left; }
+.docs-toc button { position:relative; transition:color 160ms; }
+.docs-toc button[aria-current=location] { color:var(--text); }
+.docs-toc button::before { content:''; position:absolute; left:-12px; top:50%; width:3px; height:3px; background:var(--text); border-radius:50%; transform:translateY(-50%) scale(0); transition:transform 180ms; }
+.docs-toc button[aria-current=location]::before { transform:translateY(-50%) scale(1); }
+
+@media(max-width:1100px) {
+  .docs-hero { grid-template-columns:minmax(0,1fr); gap:28px; }
+  .docs-hero .docs-lead { max-width:580px; }
+  .docs-assembly { width:100%; max-width:560px; }
+  .docs-hero h1 { font-size:40px; }
+}
+@media(max-width:680px) {
+  .docs-hero { padding:0; gap:28px; }
+  .docs-hero h1 { font-size:34px; letter-spacing:-1px; }
+  .docs-hero .docs-page-kicker { font-size:10px; margin-bottom:16px; }
+  .docs-hero-actions { gap:16px; margin-top:22px; }
+  .docs-hero-meta { margin-top:20px; }
+  .docs-assembly-stage { padding:22px 16px; }
+  .docs-assembly-stage .docs-assembly-card { padding:16px; }
+  .docs-assembly-measure { inset:10px; }
+  .docs-assembly-caption { padding:10px 12px; }
+  .docs-reading-line { left:0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .docs-toc button,.docs-toc button::before,.docs-hero-actions a { transition:none; }
+}

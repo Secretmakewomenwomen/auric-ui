@@ -11,8 +11,8 @@ const output=path.join(root,'.verification/primitives-contracts.mjs');
 fs.mkdirSync(path.dirname(output),{recursive:true});
 await build({stdin:{contents:`export * from './src/library/index';export * as examples from './src/docs/examples/primitives';`,resolveDir:root,loader:'tsx'},loader:{'.css':'empty'},bundle:true,platform:'node',format:'esm',packages:'external',outfile:output,tsconfig:path.join(root,'tsconfig.json')});
 const ui=await import(pathToFileURL(output));
-test('14 primitive examples render without browser globals',()=>{
- assert.equal(Object.keys(ui.examples).length,14);
+test('19 primitive examples render without browser globals',()=>{
+ assert.equal(Object.keys(ui.examples).length,19);
  for(const Example of Object.values(ui.examples))assert.ok(render(createElement(Example)).length>0,Example.name);
  assert.equal(render(createElement(ui.Drawer,{open:true,onOpenChange:()=>{},title:'Drawer',children:'content'})),'');
 });

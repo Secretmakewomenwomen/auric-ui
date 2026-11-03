@@ -1,6 +1,95 @@
 import { useState, type Key } from 'react';
-import { Inbox } from 'lucide-react';
-import { Table, Checkbox, RadioGroup, Textarea, Progress, Skeleton, EmptyState, Avatar, Breadcrumb, Tabs, Pagination, Drawer, Tree, Combobox, CardButton } from '../../library/index';
+import { Archive, Check, Copy, Download, Inbox, MoreHorizontal, Pencil, Tag as TagIcon, Trash2 } from 'lucide-react';
+import { Table, Checkbox, RadioGroup, Textarea, Progress, Skeleton, EmptyState, Avatar, Breadcrumb, Tabs, Pagination, Drawer, Tree, Combobox, Dropdown, Tag, Badge, Alert, Popconfirm, CardButton } from '../../library/index';
+
+export function TagExample() {
+  const [selected, setSelected] = useState('设计');
+  const [visible, setVisible] = useState(true);
+  return <div style={{ display: 'grid', gap: 22, width: '100%' }}>
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <Tag icon={<TagIcon />}>草稿</Tag><Tag tone="info">进行中</Tag><Tag tone="success" icon={<Check />}>已发布</Tag><Tag tone="warning">待审核</Tag><Tag tone="danger" variant="outline">需修改</Tag>
+    </div>
+    <div style={{ display: 'grid', gap: 10 }}>
+      <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>按类型筛选</span>
+      <div role="group" aria-label="类型筛选" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {['设计', '开发', '文档'].map(value => <Tag key={value} checkable checked={selected === value} onCheckedChange={checked => setSelected(checked ? value : '')}>{value}</Tag>)}
+        <Tag checkable disabled>归档</Tag>
+      </div>
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minHeight: 28 }}>
+      <Tag size="sm" closable visible={visible} onVisibleChange={setVisible} closeLabel="移除临时标签">临时标签</Tag>
+      <CardButton weight="quiet" disabled={visible} onClick={() => setVisible(true)}>恢复标签</CardButton>
+    </div>
+    <p role="status" style={{ margin: 0, color: 'var(--text-muted)', fontSize: 12 }}>{selected ? `当前筛选：${selected}` : '显示所有类型'}</p>
+  </div>;
+}
+
+export function BadgeExample() {
+  const [count, setCount] = useState(8);
+  return <div style={{ display: 'grid', gap: 28, width: '100%' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap', paddingTop: 8 }}>
+      <Badge count={count} label={`${count} 条未读消息`}><CardButton aria-label="收件箱"><Inbox size={15} />收件箱</CardButton></Badge>
+      <Badge count={128} tone="info"><Avatar name="项目通知" /></Badge>
+      <Badge dot tone="success" label="助手在线"><Avatar name="Auric Assistant" /></Badge>
+      <Badge count="NEW" tone="neutral" />
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
+      <Badge dot tone="success" text="已连接" label="连接正常" />
+      <Badge dot tone="warning" text="等待同步" label="同步待处理" />
+      <Badge dot tone="neutral" text="离线" label="当前离线" />
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+      <CardButton disabled={count === 0} onClick={() => setCount(Math.max(0, count - 1))}>减少</CardButton>
+      <CardButton onClick={() => setCount(count + 1)}>增加</CardButton>
+      <CardButton weight="quiet" onClick={() => setCount(0)}>全部已读</CardButton>
+      <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>未读 {count} 条</span>
+    </div>
+  </div>;
+}
+
+export function AlertExample() {
+  const [visible, setVisible] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  return <div style={{ width: '100%', display: 'grid', gap: 12 }}>
+    <Alert tone="success" title="所有更改已保存" description="下次打开项目时，可以从这里继续。" />
+    <Alert tone="info" title="邀请成员一起协作" description={expanded ? '成员加入后可查看资料、添加评论，并跟进项目进度。' : '为项目添加成员，让沟通与进展保持同步。'}
+      action={<CardButton weight="quiet" onClick={() => setExpanded(!expanded)}>{expanded ? '收起说明' : '了解协作方式'}</CardButton>} />
+    <Alert tone="warning" title="存储空间接近上限" description="可以清理不再使用的素材，为新的内容留出空间。" closable visible={visible} onVisibleChange={setVisible} closeLabel="关闭空间提醒" />
+    <div><CardButton weight="quiet" disabled={visible} onClick={() => setVisible(true)}>恢复空间提醒</CardButton></div>
+  </div>;
+}
+
+export function PopconfirmExample() {
+  const [result, setResult] = useState('选择一个操作进行确认。');
+  return <div style={{ display: 'grid', gap: 18 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+      <Popconfirm label="归档项目" title="归档这个项目？" description="归档后仍可在项目列表中找到并恢复。" confirmLabel="归档" icon={<Archive size={16} />}
+        onConfirm={() => setResult('项目已归档。')} onCancel={() => setResult('已取消归档。')}><Archive size={14} />归档项目</Popconfirm>
+      <Popconfirm label="移除项目" title="移除这个项目？" description="此操作只从当前列表移除，不会删除项目文件。" confirmLabel="移除" danger align="end"
+        onConfirm={() => setResult('已从列表移除项目。')}><Trash2 size={14} />移除项目</Popconfirm>
+    </div>
+    <p role="status" style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)' }}>{result}</p>
+  </div>;
+}
+
+export function DropdownExample() {
+  const [action, setAction] = useState('选择一个操作，查看反馈。');
+  const items = [
+    { id: 'rename', label: '重命名', icon: <Pencil size={15} />, shortcut: '⌘ R', onSelect: () => setAction('已选择：重命名') },
+    { id: 'copy', label: '创建副本', icon: <Copy size={15} />, shortcut: '⌘ D', onSelect: () => setAction('已创建项目副本。') },
+    { id: 'export', label: '导出项目', icon: <Download size={15} />, disabled: true, hint: '项目保存后即可导出。' },
+    { id: 'divider', separator: true as const },
+    { id: 'delete', label: '删除项目', icon: <Trash2 size={15} />, danger: true, onSelect: () => setAction('已选择删除；此示例不会删除实际数据。') },
+  ];
+  return <div style={{ display: 'grid', gap: 18 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+      <Dropdown label="项目操作" items={items} />
+      <Dropdown label="更多操作" items={items} align="end" showArrow={false} weight="quiet"><MoreHorizontal size={16} /></Dropdown>
+      <Dropdown label="暂无权限" items={items} disabled />
+    </div>
+    <p role="status" style={{ margin: 0, color: 'var(--text-muted)', fontSize: 12 }}>{action}</p>
+  </div>;
+}
 
 export function CheckboxExample() {
   const [selected, setSelected] = useState(['notes']);
@@ -52,7 +141,7 @@ export function TabsExample() {
 }
 export function PaginationExample() {
   const [page, setPage] = useState(1);
-  return <div style={{ display: 'grid', gap: 16 }}><p role="status">第 {page} 页，共 12 页</p><Pagination page={page} totalPages={12} onPageChange={setPage} /></div>;
+  return <div style={{ display: 'grid', gap: 16 }}><p role="status">{`第 ${page} 页，共 12 页`}</p><Pagination page={page} totalPages={12} onPageChange={setPage} /></div>;
 }
 export function DrawerExample() {
   const [open, setOpen] = useState(false);

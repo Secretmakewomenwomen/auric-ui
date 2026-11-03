@@ -30,6 +30,11 @@ export type Entry = {
   controls: string[];
 };
 const rows: [string, string, string, Category, string, string, string[]][] = [
+  ["tag", "标签", "Tag", "数据展示", "轻量语义标签，支持选择、关闭与平滑退场。", "primitives/Tag.tsx", []],
+  ["badge", "徽标", "Badge", "数据展示", "数量、短文字与状态点，柔和呈现每一次变化。", "primitives/Badge.tsx", []],
+  ["alert", "提示条", "Alert", "反馈与浮层", "在上下文中说明状态，支持操作区与关闭过渡。", "primitives/Alert.tsx", []],
+  ["popconfirm", "气泡确认", "Popconfirm", "反馈与浮层", "按钮旁的轻量确认，支持异步操作、失败重试和进退场动效。", "primitives/Popconfirm.tsx", []],
+  ["dropdown", "下拉菜单", "Dropdown", "基础组件", "按钮触发的操作菜单，带轻盈展开过渡、键盘导航与自动边缘避让。", "primitives/Dropdown.tsx", []],
   ["table", "表格", "Table", "数据展示", "支持排序、行选择、自定义单元格与加载状态的数据表格。", "primitives/Table.tsx", []],
   ["drawer", "抽屉", "Drawer", "反馈与浮层", "四向进入、焦点约束与关闭后焦点恢复。", "primitives/Drawer.tsx", []],
   ["radio", "单选组", "RadioGroup", "数据输入", "原生单选语义，支持键盘切换与选项说明。", "primitives/RadioGroup.tsx", []],
@@ -83,9 +88,9 @@ const rows: [string, string, string, Category, string, string, string[]][] = [
     [],
   ],
   [
-    "badge",
+    "status",
     "状态标签",
-    "Badge",
+    "Status",
     "数据展示",
     "克制地传达状态，让色彩只用于重要信息。",
     "settings/ui.tsx",

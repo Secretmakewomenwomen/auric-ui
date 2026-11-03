@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import { classes, usageMetrics } from './shared';
 
 export interface ContextUsageProps {
@@ -9,7 +10,10 @@ export interface ContextUsageProps {
   className?: string;
 }
 
-export function ContextUsage({ used, limit, label = '上下文用量', unit = 'tokens', warningAt = 0.8, className }: ContextUsageProps) {
+export function ContextUsage({ used, limit, label, unit = 'tokens', warningAt = 0.8, className }: ContextUsageProps) {
+  const uiText = useUiText();
+  if (label === undefined) label = uiText("上下文用量");
+
   const { valid, percent, over } = usageMetrics(used, limit);
   const threshold = Number.isFinite(warningAt) ? Math.max(0, Math.min(1, warningAt)) : 0.8;
   const text = valid ? `${used.toLocaleString('en-US')} / ${limit.toLocaleString('en-US')} ${unit}` : '—';

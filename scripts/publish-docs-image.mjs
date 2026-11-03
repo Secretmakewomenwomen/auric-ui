@@ -2,13 +2,15 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadDocsPublishEnv } from './docs-publish-env.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const image = process.env.DOCS_IMAGE;
-const tag = process.env.DOCS_TAG || `docs-${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')}`;
-const builder = process.env.DOCS_BUILDER || 'auricui-docs-builder';
-const buildkitImage = process.env.DOCS_BUILDKIT_IMAGE || 'docker.xuanyuan.run/moby/buildkit:buildx-stable-1';
-const baseImageArgs = process.env.DOCS_NGINX_IMAGE ? ['--build-arg', `NGINX_IMAGE=${process.env.DOCS_NGINX_IMAGE}`] : [];
+const config = loadDocsPublishEnv(root);
+const image = config.DOCS_IMAGE;
+const tag = config.DOCS_TAG || `docs-${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')}`;
+const builder = config.DOCS_BUILDER || 'auricui-docs-builder';
+const buildkitImage = config.DOCS_BUILDKIT_IMAGE || 'docker.xuanyuan.run/moby/buildkit:buildx-stable-1';
+const baseImageArgs = config.DOCS_NGINX_IMAGE ? ['--build-arg', `NGINX_IMAGE=${config.DOCS_NGINX_IMAGE}`] : [];
 const localImage = `auricui-docs-check:${process.pid}`;
 
 function docker(args, { capture = false, allowFailure = false } = {}) {
@@ -46,7 +48,7 @@ function checkDist() {
 }
 
 try {
-  if (!image) throw new Error('请通过 DOCS_IMAGE 指定镜像仓库，例如 DOCS_IMAGE=docker.io/YOUR_USERNAME/auricui-docs npm run docker:publish。');
+  if (!image) throw new Error('请在 .env.publish.local 或环境变量 DOCS_IMAGE 中指定不带标签的镜像仓库；配置模板见 .env.publish.example。');
   if (!/^[a-z0-9][a-z0-9._:/-]*\/[a-z0-9][a-z0-9._/-]*$/.test(image) || image.includes('@') || image.split('/').at(-1).includes(':')) {
     throw new Error('DOCS_IMAGE 应为不带标签的镜像地址，例如 docker.io/YOUR_USERNAME/auricui-docs。');
   }
@@ -59,7 +61,7 @@ try {
   docker(['info', '--format', '{{.ServerVersion}}']);
   const existing = docker(['buildx', 'inspect', builder], { capture: true, allowFailure: true });
   if (existing.status !== 0) {
-    if (process.env.DOCS_BUILDER) throw new Error('指定的 DOCS_BUILDER 不存在或不可访问，请先创建并配置该 builder。');
+    if (config.DOCS_BUILDER) throw new Error('指定的 DOCS_BUILDER 不存在或不可访问，请先创建并配置该 builder。');
     docker(['buildx', 'create', '--name', builder, '--driver', 'docker-container', '--driver-opt', `image=${buildkitImage}`]);
   }
 

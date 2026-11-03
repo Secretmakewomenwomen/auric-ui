@@ -6,7 +6,7 @@
 
 AuricUI 将表单、消息、工具调用、项目管理和媒体编辑组件放在统一的视觉系统中。以深色界面为起点，支持浅色主题，帮助你搭建 AI 助手、Agent 工作台和内容创作工具。
 
-![AuricUI 文档站预览：深色主题、组件导航与快速开始](./docs/images/image1.png)
+![AuricUI 中文文档预览：可交互的组件组合展示、语言切换与快速开始](./docs/images/docs-zh-CN.png)
 
 [在线文档与演示](https://coderclouds.com:8443/#/start) · [快速开始](#快速开始) · [组件入口](#组件入口) · [运行文档](#运行文档) · [参与贡献](./CONTRIBUTING.md)
 
@@ -212,6 +212,19 @@ npm run dev
 ## 部署与发布
 
 文档站构建产物位于 `dist/`，可使用仓库中的 [Dockerfile](./Dockerfile) 制作静态站点镜像。
+
+在 Mac 上使用发布脚本时，首次复制 [发布配置模板](./.env.publish.example) 为 `.env.publish.local`，填写 `DOCS_IMAGE`（不带标签的镜像仓库地址）和已配置的 Docker 构建器：
+
+```bash
+cp .env.publish.example .env.publish.local
+# 编辑 .env.publish.local，填写实际 DOCS_IMAGE
+bash scripts/publish-mac.sh --check       # 只检查本地配置、Docker 和构建器
+bash scripts/publish-mac.sh               # 构建并发布文档镜像
+# 需要同时递增版本并发布组件库与 Skill 时：
+bash scripts/publish-mac.sh --release all
+```
+
+`.env.publish.local` 不提交到 Git；脚本会自动读取，环境变量可以覆盖同名配置，新终端无需重复 `export`。`--check` 不构建、不递增版本、不推送，也不验证远程发布权限。实际发布前需完成 npm / 镜像仓库登录及构建器证书配置。若 npm 发版成功后镜像步骤失败，修复后用不带 `--release` 的命令重试。镜像推送完成后仍需在服务器拉取并重建容器。
 
 <details>
 <summary>维护者：发布 npm 包</summary>

@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import { useId, type ReactNode } from 'react';
 import { Check, Copy, ChevronDown, AlertCircle } from 'lucide-react';
 import { classes, useControllable, useCopy } from './shared';
@@ -24,7 +25,14 @@ export interface CodeBlockProps {
 
 /** Portable code viewer; the raw string is always what gets copied. */
 export function CodeBlock({ code, language = 'text', filename, lineNumbers = false, collapsible = false, collapsed, defaultCollapsed = false,
-  onCollapsedChange, renderLine, onCopyError, copyLabel = '复制代码', copiedLabel = '已复制', errorLabel = '复制失败，请手动选择代码', expandLabel = '展开代码', collapseLabel = '折叠代码', className }: CodeBlockProps) {
+  onCollapsedChange, renderLine, onCopyError, copyLabel, copiedLabel, errorLabel, expandLabel, collapseLabel, className }: CodeBlockProps) {
+  const uiText = useUiText();
+  if (copyLabel === undefined) copyLabel = uiText("复制代码");
+  if (copiedLabel === undefined) copiedLabel = uiText("已复制");
+  if (errorLabel === undefined) errorLabel = uiText("复制失败，请手动选择代码");
+  if (expandLabel === undefined) expandLabel = uiText("展开代码");
+  if (collapseLabel === undefined) collapseLabel = uiText("折叠代码");
+
   const id = useId();
   const [closed, setClosed] = useControllable(collapsed, defaultCollapsed, onCollapsedChange);
   const { status, copy } = useCopy(onCopyError);

@@ -11,6 +11,9 @@ artifacts/
 *.zip
 *.tsbuildinfo
 /src/docs/generated.json
+/src/docs/generated-playground/
+/src/docs/generated-examples-en/
+/src/docs/generated-playground-en/
 /src/library/styles.css
 /src/studio/lib/sample-assets.json
 /skills/auricui/references/library-manifest.json

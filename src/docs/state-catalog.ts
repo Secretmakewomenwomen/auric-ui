@@ -2,6 +2,11 @@ export type StateExample = { example: string; title: string; description: string
 
 const state = (example: string, title: string, description: string): StateExample[] => [{ example, title, description }];
 export const stateExamples: Record<string, StateExample[]> = {
+  tag: state('TagStates', '退场后移除与受保护标签', '使用 onAfterClose 清理数组，保留关闭过渡；onClose 可阻止关闭，disabled 同时禁用选择和移除。'),
+  badge: state('BadgeStates', '零计数、上限与状态点', '切换复选框查看显示与隐藏动效；数量超过上限时显示 n+，辅助技术仍能读取实际数量。'),
+  alert: state('AlertStates', '失败、重试与恢复', '通过 tone、title 和 action 组合业务状态，提示区保持稳定，图标颜色柔和过渡。'),
+  popconfirm: state('PopconfirmStates', '异步确认与失败重试', 'Promise 执行期间禁用重复确认，失败时保留浮层。取消失败模拟后重新打开即可体验成功关闭。'),
+  dropdown: state('DropdownStates', '受控展开与长菜单', '展开状态由应用同步；长菜单在面板内滚动，方向键自动跳过禁用项。上方展开会保留相同的过渡效果。'),
   table: state('TableStates', '加载、空数据与固定表头', '在本地切换加载和空数据状态，体验紧凑行高、滚动与固定表头；此示例不请求后端。'),
   button: state('CardButtonStates', '提交中与禁用', '用 disabled 防止重复提交，配合 aria-busy 和结果文字提供反馈。此处保存请求为本地模拟。'),
   input: state('SettingsFieldStates', '校验、只读与禁用', '校验逻辑由应用控制。错误文字与 aria-describedby 关联；只读内容仍可选择和复制。'),

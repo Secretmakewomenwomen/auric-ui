@@ -28,5 +28,11 @@ export * from '../components/primitives/Pagination';
 export * from '../components/primitives/Drawer';
 export * from '../components/primitives/Tree';
 export * from '../components/primitives/Combobox';
+export * from '../components/primitives/Dropdown';
+export * from '../components/primitives/Tag';
+export * from '../components/primitives/Badge';
+export * from '../components/primitives/Alert';
+export * from '../components/primitives/Popconfirm';
+export type { FeedbackTone } from '../components/primitives/feedback';
 
 export * from '../components/primitives/Table';

@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import { useId, type ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { classes, useControllable } from './shared';
@@ -13,7 +14,10 @@ export interface ReasoningDisclosureProps {
 }
 
 /** A disclosure for a supplied explanation or execution summary. Does not generate reasoning. */
-export function ReasoningDisclosure({ title = '查看过程摘要', meta, open, defaultOpen = false, onOpenChange, children, className }: ReasoningDisclosureProps) {
+export function ReasoningDisclosure({ title, meta, open, defaultOpen = false, onOpenChange, children, className }: ReasoningDisclosureProps) {
+  const uiText = useUiText();
+  if (title === undefined) title = uiText("查看过程摘要");
+
   const [expanded, setExpanded] = useControllable(open, defaultOpen, onOpenChange);
   const id = useId();
   return <section className={classes('auricui-reasoning', className)}>

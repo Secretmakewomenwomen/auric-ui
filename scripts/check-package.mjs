@@ -13,14 +13,14 @@ fs.writeFileSync(path.join(consumer,'index.html'),'<html data-theme="dark"><head
 fs.writeFileSync(path.join(consumer,'main.tsx'),`
 import React from 'react';
 import {createRoot} from 'react-dom/client';
-import {AuricUIProvider, CardButton, SettingsDialog, Table, Drawer, Tree, Checkbox, RadioGroup, Combobox, Tabs, Pagination} from 'auricui';
+import {AuricUIProvider, CardButton, SettingsDialog, Table, Drawer, Tree, Checkbox, RadioGroup, Combobox, Dropdown, Tag, Badge, Alert, Popconfirm, Tabs, Pagination} from 'auricui';
 import {MemoryCard, MessageBubble, Citation, ApprovalCard} from 'auricui/agent';
 import {Markdown, PromptEditor, type ChatServices} from 'auricui/chat';
 import {Timeline, SubtitleInspector, configureStudioTransport, type Film} from 'auricui/studio';
 import 'auricui/styles.css';
 const film:Film={tracks:[]};
 export function setup(services:ChatServices){configureStudioTransport({fetch:services.fetch});return film;}
-export const library=[Table,SettingsDialog,Timeline,SubtitleInspector,PromptEditor,Drawer,Tree,Checkbox,RadioGroup,Combobox,Tabs,Pagination,MemoryCard,MessageBubble,Citation,ApprovalCard];
+export const library=[Table,SettingsDialog,Timeline,SubtitleInspector,PromptEditor,Drawer,Tree,Checkbox,RadioGroup,Combobox,Dropdown,Tag,Badge,Alert,Popconfirm,Tabs,Pagination,MemoryCard,MessageBubble,Citation,ApprovalCard];
 createRoot(document.getElementById('root')!).render(<AuricUIProvider><CardButton>保存</CardButton><section className="auricui-chat"><Markdown text="**ESM package works**"/></section></AuricUIProvider>);
 `);
 fs.writeFileSync(path.join(consumer,'tsconfig.json'),JSON.stringify({compilerOptions:{target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',jsx:'react-jsx',strict:true,noEmit:true,skipLibCheck:false,lib:['ES2022','DOM','DOM.Iterable']},include:['main.tsx']}));
@@ -31,7 +31,7 @@ execFileSync(process.execPath,[path.join(consumer,'smoke.mjs')],{stdio:'inherit'
 await build({configFile:false,root:consumer,logLevel:'warn',build:{outDir:'dist',emptyOutDir:true}});
 const css=fs.readFileSync(path.join(dir,'dist/styles.css'),'utf8');
 if(/@import\s+['"](?:tailwindcss|@fontsource)|@tailwind|@source|@custom-variant/.test(css))throw new Error('Published CSS still needs a source processor');
-if(!css.includes('.auricui-table')||!css.includes('.auricui-drawer')||!css.includes('.auricui-tree')||!css.includes('.auricui-memory'))throw new Error('New component styles missing');
+if(!css.includes('.auricui-table')||!css.includes('.auricui-drawer')||!css.includes('.auricui-tree')||!css.includes('.auricui-memory')||!css.includes('.auricui-dropdown-menu')||!css.includes('.auricui-tag')||!css.includes('.auricui-badge')||!css.includes('.auricui-alert')||!css.includes('.auricui-popconfirm-panel'))throw new Error('New component styles missing');
 if(!css.includes('.auricui-chat')||!css.includes('auricui-rise'))throw new Error('Theme scope or animation is missing');
 const assets=path.join(consumer,'dist/assets');
 if(!fs.readdirSync(assets).some(name=>name.endsWith('.js')))throw new Error('Consumer did not produce browser JavaScript');

@@ -1,3 +1,5 @@
+import * as english from './generated-examples-en';
+import { useDocsLocale } from './locale';
 import type { ComponentType } from 'react';
 import * as agent from './examples/agent';
 import * as core from './examples/core';
@@ -10,8 +12,10 @@ import type { Entry } from '../registry';
 import { getDoc } from './catalog';
 const all:Record<string,ComponentType>={...agent,...core,...chat,...recipes,...primitives,...states,...studio};
 export function Preview({entry,notify,example}:{entry:Entry;notify:(text:string)=>void;example?:string}) {
-  const doc=getDoc(entry);
-  const Example=all[`${example??doc.example??doc.symbol}Example`];
+  const { locale }=useDocsLocale();
+  const doc=getDoc(entry,locale);
+  const localized:Record<string,ComponentType>=locale==='en'?english:all;
+  const Example=localized[`${example??doc.example??doc.symbol}Example`];
   if(!Example)throw new Error(`Missing documentation example: ${entry.id}`);
   return <div className="docs-agent-example"><Example/></div>;
 }

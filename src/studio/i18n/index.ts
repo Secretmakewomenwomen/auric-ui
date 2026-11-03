@@ -8,6 +8,7 @@
  * shown as `<html lang>`, which an app embedding Studio reads to match it.
  */
 import React from 'react';
+import { UiLocaleContext } from '../../i18n/locale';
 import { en } from './en.ts';
 import { es } from './es.ts';
 import { ja } from './ja.ts';
@@ -92,7 +93,6 @@ let shown: Language = current();
 
 function apply() {
   shown = current();
-  if (typeof document !== 'undefined') document.documentElement.lang = shown;
   for (const listener of listeners) listener();
 }
 if (typeof window !== 'undefined') {
@@ -114,7 +114,10 @@ const subscribe = (on: () => void) => { listeners.add(on); return () => { listen
 
 /** The language shown now; a change draws again whoever uses it. */
 export function useLanguage(): Language {
-  return React.useSyncExternalStore(subscribe, () => shown, () => 'en' as Language);
+  const supplied = React.useContext(UiLocaleContext);
+  const selected = React.useSyncExternalStore(subscribe, () => shown, () => 'en' as Language);
+  React.useEffect(() => { if (!supplied) document.documentElement.lang = selected; }, [supplied, selected]);
+  return supplied ?? selected;
 }
 
 /** The person's choice (or "system") and a way to change it. */

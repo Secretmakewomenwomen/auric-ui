@@ -1,3 +1,4 @@
+import { useUiText } from '../i18n/ui';
 import type { ReactNode } from 'react';
 import { classes } from './shared';
 
@@ -17,7 +18,10 @@ export interface MessageActionsProps {
 }
 
 /** Each action is supplied by the host; the component never requests a model or writes feedback. */
-export function MessageActions({ actions, label = '消息操作', disabled, className }: MessageActionsProps) {
+export function MessageActions({ actions, label, disabled, className }: MessageActionsProps) {
+  const uiText = useUiText();
+  if (label === undefined) label = uiText("消息操作");
+
   return <div className={classes('auricui-message-toolbar', className)} role="group" aria-label={label}>
     {actions.map(action => <button key={action.id} type="button" className="auricui-agent-button" aria-label={action.label} title={action.label}
       disabled={disabled || action.disabled} aria-pressed={action.pressed} onClick={action.onSelect}>

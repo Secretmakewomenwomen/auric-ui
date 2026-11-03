@@ -1,3 +1,4 @@
+import { useUiText } from '../../i18n/ui';
 /** Portable shell extracted from OpenFilm SettingsModal; pages belong to the host. */
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -23,6 +24,7 @@ export function SettingsDialog({
   initialPage?: string;
   footer?: ReactNode;
 }) {
+  const uiText = useUiText();
   const [section, setSection] = useState(initialPage ?? pages[0]?.id);
   const [query, setQuery] = useState("");
   const [shown, setShown] = useState(false);
@@ -114,7 +116,7 @@ export function SettingsDialog({
         }}
       >
         <nav
-          aria-label="设置"
+          aria-label={uiText("设置")}
           className="flex w-[264px] shrink-0 flex-col overflow-y-auto border-r border-[var(--border)] px-3 pb-4 pt-3"
         >
           <label className="mb-3 flex h-10 shrink-0 items-center gap-2.5 rounded-[9px] border border-[var(--border)] px-3 text-[var(--text-muted)] transition focus-within:border-[var(--text-muted)]">
@@ -123,8 +125,8 @@ export function SettingsDialog({
               ref={search}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="搜索设置"
-              aria-label="搜索设置"
+              placeholder={uiText("搜索设置")}
+              aria-label={uiText("搜索设置")}
               className="min-w-0 flex-1 bg-transparent text-[15px] text-[var(--text)] outline-none placeholder:text-[var(--text-faint)]"
             />
           </label>
@@ -154,9 +156,7 @@ export function SettingsDialog({
             </div>
           ))}
           {!found.length && (
-            <p className="px-2.5 pt-4 text-[14px] text-[var(--text-faint)]">
-              没有找到相关设置
-            </p>
+            <p className="px-2.5 pt-4 text-[14px] text-[var(--text-faint)]">{uiText("没有找到相关设置")}</p>
           )}
           <div className="mt-auto px-2.5 pt-6 text-[13px] text-[var(--text-faint)]">
             {footer}
@@ -166,7 +166,7 @@ export function SettingsDialog({
           <button
             type="button"
             onClick={onClose}
-            aria-label="关闭设置"
+            aria-label={uiText("关闭设置")}
             className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-[8px] text-[var(--text-muted)] transition hover:bg-[var(--bg-hover)] hover:text-[var(--text)]"
           >
             <X size={19} />
@@ -179,7 +179,7 @@ export function SettingsDialog({
               id={titleId}
               className="mb-7 text-[22px] font-semibold tracking-[-0.015em] text-[var(--text)]"
             >
-              {showing?.title ?? "设置"}
+              {showing?.title ?? uiText("设置")}
             </h2>
             {showing?.content}
           </div>

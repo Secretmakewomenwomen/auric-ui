@@ -7,22 +7,27 @@ cd "$ROOT"
 
 usage() {
   cat <<'EOF'
-Usage: bash scripts/publish-mac.sh [--release lib|skill|all]
+Usage: bash scripts/publish-mac.sh [--release lib|skill|all] [--check]
 
 Default: build/check documentation and publish its Docker image.
 --release: first increment versions and publish the selected packages to npm.
+--check: validate configuration and local prerequisites, then exit without publishing.
 
-Required environment: DOCS_IMAGE (registry/repository, without a tag)
-Optional environment: DOCS_BUILDER, DOCS_TAG, DOCS_NGINX_IMAGE
+Configuration: .env.publish.local in the project root (environment takes priority).
+Copy .env.publish.example to .env.publish.local and fill in DOCS_IMAGE once.
+Required: DOCS_IMAGE (registry/repository, without a tag)
+Optional: DOCS_BUILDER, DOCS_TAG, DOCS_NGINX_IMAGE, DOCS_BUILDKIT_IMAGE
 DOCS_BUILDER defaults to auricui-private-registry.
 Docker Desktop, registry logins and builder CA trust must already be configured.
 EOF
 }
 
 RELEASE_TARGET=''
+CHECK_ONLY=0
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --help|-h) usage; exit 0 ;;
+    --check) CHECK_ONLY=1; shift ;;
     --release)
       if [ "$#" -lt 2 ]; then usage >&2; exit 1; fi
       case "$2" in lib|skill|all) RELEASE_TARGET="$2" ;; *) usage >&2; exit 1 ;; esac
@@ -31,14 +36,21 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
-: "${DOCS_IMAGE:?请设置 DOCS_IMAGE，例如 registry.example.com:5443/auricui-docs}"
-export DOCS_BUILDER="${DOCS_BUILDER:-auricui-private-registry}"
-export DOCS_TAG="${DOCS_TAG:-docs-$(date -u +%Y%m%dT%H%M%SZ)}"
-
 STAGE='环境检查'
 trap 'code=$?; printf "\n失败阶段：%s（退出码 %s）。修复后再继续；已完成的 npm 发布不会撤销。\n" "$STAGE" "$code" >&2; exit "$code"' ERR
 
 command -v node >/dev/null
+PUBLISH_CONFIG=$(node "$ROOT/scripts/docs-publish-env.mjs")
+while IFS= read -r assignment; do
+  if [ -n "$assignment" ]; then export "$assignment"; fi
+done <<< "$PUBLISH_CONFIG"
+if [ -z "${DOCS_IMAGE:-}" ]; then
+  printf '%s\n' '缺少 DOCS_IMAGE：请复制 .env.publish.example 为 .env.publish.local，并填写不带标签的镜像仓库地址。' \
+    '也可以在命令前设置 DOCS_IMAGE=你的仓库/auricui-docs。当前尚未执行 npm 发版或镜像推送。' >&2
+  exit 1
+fi
+export DOCS_BUILDER="${DOCS_BUILDER:-auricui-private-registry}"
+export DOCS_TAG="${DOCS_TAG:-docs-$(date -u +%Y%m%dT%H%M%SZ)}"
 command -v npm >/dev/null
 command -v docker >/dev/null
 node --input-type=module -e '
@@ -59,6 +71,10 @@ if [ ! -d node_modules ]; then
 fi
 
 printf '\n镜像：%s:%s\n构建器：%s\n' "$DOCS_IMAGE" "$DOCS_TAG" "$DOCS_BUILDER"
+if [ "$CHECK_ONLY" -eq 1 ]; then
+  printf '\n配置、Docker 和构建器检查通过；未递增版本、未构建或发布。\n'
+  exit 0
+fi
 if [ -n "$RELEASE_TARGET" ]; then
   STAGE='npm 发版'
   npm run release -- "$RELEASE_TARGET"
